@@ -9,7 +9,6 @@
   "license": "MIT",
   "dependencies": {
     "@types/signalr": "^2.2.33",
-    "@types/whatwg-fetch": "0.0.33",
     "aurelia-animator-css": "^1.0.1",
     "aurelia-bootstrapper": "^2.1.0",
     "aurelia-fetch-client": "^1.1.1",
