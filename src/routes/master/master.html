@@ -1,0 +1,18 @@
+<template>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Planning Poker</h1>
+            <form>
+                <div class="form-group">
+                    <label for="session-name">Session Name</label>
+                    <input type="text" class="form-control" id="session-name" placeholder="Session" value.bind="session">
+                </div>
+                <div class="form-group">
+                    <label for="your-name">Your Name</label>
+                    <input type="text" class="form-control" id="your-name" placeholder="Name" value.bind="master">
+                </div>
+                <p><a class="btn btn-primary btn-lg" role="button" click.delegate="startSession()" >Start Session</a></p>
+            </form>
+        </div>
+    </div>
+</template>

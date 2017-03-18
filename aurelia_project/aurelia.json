@@ -139,9 +139,22 @@
             "name": "bootstrap",
             "path": "../node_modules/bootstrap/dist",
             "main": "js/bootstrap.min",
-            "deps": ["jquery"],
+            "deps": [
+              "jquery"
+            ],
             "exports": "$",
-            "resources": ["css/bootstrap.css"]
+            "resources": [
+              "css/bootstrap.css"
+            ]
+          },
+          {
+            "name": "toastr",
+            "main": "toastr.js",
+            "path": "../node_modules/toastr",
+            "resources": [
+              "build/toastr.css",
+              "build/toastr.min.css"
+            ]
           }
         ]
       }

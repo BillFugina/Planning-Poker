@@ -1,11 +1,13 @@
-import {ISessionId} from 'model'
-import {HttpClient} from 'aurelia-fetch-client'
+import {ISession, ISessionId, ISessionApplication} from 'model'
+import {HttpClient, json} from 'aurelia-fetch-client'
 
 export interface ISessionService {
     StartSession(sessionName: string, masterName: string) : Promise<ISessionId> 
 }
 
 export class SessionService {
+
+    private session: Partial<ISession>
 
     private client : HttpClient
 
@@ -25,9 +27,14 @@ export class SessionService {
     }
 
     async StartSession(sessionName: string, masterName: string) : Promise<ISessionId> {
+        var sessionApplication: ISessionApplication = {
+            MasterName: masterName,
+            SessionName: sessionName
+        }
         
-        var response = await this.client.fetch(`startup/sessions/${sessionName}/${masterName}`, {
-            method: 'post'
+        var response = await this.client.fetch(`sessions`, {
+            method: 'post',
+            body: json(sessionApplication)
         })
 
         var sessionId : ISessionId = await response.json()
