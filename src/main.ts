@@ -1,6 +1,6 @@
+import { DI, Singletons } from 'dependency-injection'
 import {Aurelia} from 'aurelia-framework'
 import environment from 'environment';
-import { Singletons } from 'dependency-injection'
 
 //Configure Bluebird Promises.
 (<any>Promise).config({
@@ -22,7 +22,7 @@ export async function configure(aurelia: Aurelia) {
     aurelia.use.plugin('aurelia-testing');
   }
 
-  // Register all singleton implementations
+  //Register all singleton implementations
   Singletons.forEach(singleton => {
     aurelia.container.registerSingleton(singleton.interface, singleton.implementation)
   })

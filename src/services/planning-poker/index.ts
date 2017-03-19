@@ -1,11 +1,16 @@
-import {ISession, ISessionId} from 'model/domain';
+import {IGuid, ISession, ISessionId} from 'model';
 export interface IApiService {
-    StartSession(sessionName: string, masterName: string) : Promise<ISessionId> 
+    StartSession(sessionName: string, masterName: string) : Promise<ISession> 
+    GetSession(sessionId: IGuid) : Promise<ISession>
+    CheckSession(sessionId: IGuid) : Promise<ISession>
 }
 
 
 export interface ISessionService extends ISession {
-    update(newSession: ISessionId)
+    refresh(): Promise<boolean>
+    update(newSession: ISession)
+    startSession(session: string, master: string): Promise<ISession> 
+    getSession(sessionId: IGuid) : Promise<ISession>
 }
 
 export interface ISimpleService {

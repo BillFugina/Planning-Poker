@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/signalr": "^2.2.33",
+    "aurelia-framework": "^1.1.0",
     "aurelia-animator-css": "^1.0.1",
     "aurelia-bootstrapper": "^2.1.0",
     "aurelia-fetch-client": "^1.1.1",
@@ -23,6 +23,7 @@
   },
   "peerDependencies": {},
   "devDependencies": {
+    "@types/signalr": "^2.2.33",
     "@types/jasmine": "^2.2.0",
     "@types/node": "^6.0.45",
     "@types/toastr": "^2.1.32",

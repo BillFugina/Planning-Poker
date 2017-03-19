@@ -6,7 +6,7 @@ export interface IStorageService<TKey extends string> {
 }
 
 // Enumerate Local Storage Keys
-export type ILocalStorageKey = 'AuthN' | 'AuthZ'
+export type ILocalStorageKey = 'SessionID'
 
 export interface ILocalStorageService extends IStorageService<ILocalStorageKey> {}
 
