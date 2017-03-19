@@ -1,16 +1,16 @@
 import { DI } from 'dependency-injection'
-import { ISessionService } from 'services/planning-poker'
+import { ISessionService, ISimpleService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { IRound, IParticipant } from 'model/domain'
 import { ISession, ISessionId } from 'model'
 import { ILocalStorageService } from "services/storage"
 
-@inject(DI.ILocalStorageService)
+@inject(DI.ISimpleService)
 export class SessionService implements ISessionService {
     private _session: ISession
 
     constructor(
-        private localStorageService: ILocalStorageService
+        private simpleService: ISimpleService
     ) {
         
     }

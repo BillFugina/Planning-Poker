@@ -7,3 +7,7 @@ export interface IApiService {
 export interface ISessionService extends ISession {
     update(newSession: ISessionId)
 }
+
+export interface ISimpleService {
+    HelloWorld() : string
+}
