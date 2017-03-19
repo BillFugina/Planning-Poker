@@ -1,14 +1,11 @@
-import {ISession, ISessionId, ISessionApplication} from 'model'
-import {HttpClient, json} from 'aurelia-fetch-client'
+import { DI } from 'dependency-injection'
+import { ISessionService } from 'services/planning-poker'
+import { inject } from 'aurelia-framework'
+import { IApiService } from 'services/planning-poker'
+import { ISessionId, ISessionApplication } from 'model'
+import { HttpClient, json } from 'aurelia-fetch-client'
 
-export interface ISessionService {
-    StartSession(sessionName: string, masterName: string) : Promise<ISessionId> 
-}
-
-export class SessionService {
-
-    private session: Partial<ISession>
-
+export class ApiService implements IApiService {
     private client : HttpClient
 
     constructor() {       

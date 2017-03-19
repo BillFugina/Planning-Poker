@@ -1,22 +1,26 @@
-import { inject } from 'aurelia-framework'
+import { ISessionService, IApiService } from 'services/planning-poker';
 import { DI } from 'dependency-injection'
-import { ISessionService } from 'services/SessionService'
+import { Router } from 'aurelia-router';
+import { inject } from 'aurelia-framework'
 import * as toastr from 'toastr'
 
-@inject(DI.ISessionService)
+@inject(DI.IApiService, Router)
 export class Home {
     session: string
     master: string
 
     constructor(
-        private sessionService: ISessionService
+        private apiService: IApiService,
+        private router: Router
     ) {
     }
 
     async startSession() {
         try {
-            var result = await this.sessionService.StartSession(this.session, this.master);
-            toastr.info(`Session: ${result.Id}`, 'Session Started', { closeButton: true, progressBar: true })
+            var result = await this.apiService.StartSession(this.session, this.master);
+            toastr.info(`Session: ${result.Name}`, 'Session Started', { closeButton: true, progressBar: true })
+            //this.sessionService.update(result);
+            this.router.navigateToRoute('master')
         }
         catch (error) {
             toastr.error(`Error starting session.`)

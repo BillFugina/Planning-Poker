@@ -1,6 +1,17 @@
+import { inject } from 'aurelia-framework'
+import { DI } from 'dependency-injection'
+import { Router, RouterConfiguration } from 'aurelia-router'
+import { ILocalStorageService } from "services/storage";
+
+@inject(DI.ILocalStorageService)
 export class App {
-  router: any;
-  configureRouter(config, router) {
+  router: Router;
+
+  constructor(private localStorageService: ILocalStorageService) {
+    
+  }
+
+  configureRouter(config: RouterConfiguration, router: Router) {
     this.router = router;
     config.title = 'Planning Poker';
     config.map([
@@ -10,7 +21,7 @@ export class App {
         moduleId: 'routes/home/home' 
       },
       {
-        route: ['', 'master'],
+        route: ['master'],
         name: 'master',
         moduleId: 'routes/master/master'
       }

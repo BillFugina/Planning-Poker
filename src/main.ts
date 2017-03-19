@@ -9,7 +9,7 @@ import { Singletons } from 'dependency-injection'
   }
 });
 
-export function configure(aurelia: Aurelia) {
+export async function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
     .feature('resources');
@@ -27,5 +27,6 @@ export function configure(aurelia: Aurelia) {
     aurelia.container.registerSingleton(singleton.interface, singleton.implementation)
   })
 
-  aurelia.start().then(() => aurelia.setRoot());
+  await aurelia.start()
+  aurelia.setRoot('app')
 }
