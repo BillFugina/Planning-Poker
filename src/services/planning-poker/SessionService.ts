@@ -5,10 +5,12 @@ import { IRound, IParticipant } from 'model/domain'
 import { ISession, ISessionId } from 'model'
 import { ILocalStorageService } from "services/storage"
 
+@inject(DI.ILocalStorageService)
 export class SessionService implements ISessionService {
     private _session: ISession
 
     constructor(
+        private localStorageService: ILocalStorageService
     ) {
         
     }
