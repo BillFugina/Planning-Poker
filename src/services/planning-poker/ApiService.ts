@@ -2,7 +2,7 @@ import { DI } from 'dependency-injection'
 import { ISessionService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { IApiService } from 'services/planning-poker'
-import { ISession, ISessionApplication, IGuid } from 'model'
+import { ISession, ISessionApplication, IParticipantApplication } from 'model'
 import { HttpClient, json } from 'aurelia-fetch-client'
 
 export class ApiService implements IApiService {
@@ -40,21 +40,41 @@ export class ApiService implements IApiService {
 
     async GetSession(sessionId: IGuid): Promise<ISession> {
 
-        var response = await this.client.fetch(`sessions\\${sessionId}`, {
+        var response = await this.client.fetch(`sessions/${sessionId}`, {
             method: 'get'
         })
 
         var session: ISession = await response.json()
         return session
     }
-    
+
     async CheckSession(sessionId: IGuid): Promise<ISession> {
         try {
-            var response = await this.client.fetch(`sessions\\${sessionId}`, {
+            var response = await this.client.fetch(`sessions/${sessionId}`, {
                 method: 'get'
             })
-        var session: ISession = await response.json()
-        return session
+            var session: ISession = await response.json()
+            return session
+        }
+        catch (error) {
+            return undefined
+        }
+    }
+
+    async JoinSession(sessionName: string, participantName: string): Promise<ISession> {
+        var participantApplication: IParticipantApplication = {
+            Name: participantName,
+            Role: ParticipantRole.Voter
+        }
+
+        try {
+            var response = await this.client.fetch(`sessions/${sessionName}/participants`, {
+                method: 'post',
+                body: json(participantApplication)
+            })
+
+            var session: ISession = await response.json()
+            return session
         }
         catch (error) {
             return undefined

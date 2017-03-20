@@ -2,7 +2,7 @@ import { IApiService } from 'services/planning-poker';
 import { DI } from 'dependency-injection'
 import { ISessionService, ISimpleService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
-import { IGuid, IRound, IParticipant, ISession, ISessionId } from 'model'
+import { IRound, IParticipant, ISession, ISessionId } from 'model'
 import { ILocalStorageService } from "services/storage"
 import * as toastr from 'toastr'
 
@@ -14,8 +14,8 @@ export class SessionService implements ISessionService {
         private localStorageService: ILocalStorageService,
         private apiService: IApiService
     ) {
-        toastr.info('SessionService created')
     }
+
     get Id(): IGuid { return this._session.Id }
     get Name(): string { return this._session.Name }
     get Master(): IParticipant { return this._session.Master }
@@ -42,7 +42,7 @@ export class SessionService implements ISessionService {
     }
     async startSession(session: string, master: string): Promise<ISession> {
         try {
-            var result = await this.apiService.StartSession(session, master);
+            var result = await this.apiService.StartSession(session, master)
             toastr.info(`Session: ${result.Name}`, 'Session Started', { closeButton: true, progressBar: true })
             this.update(result)
             return result
@@ -69,5 +69,17 @@ export class SessionService implements ISessionService {
 
     private putSessionIdIntoStorage(sessionId: IGuid){
         this.localStorageService.set('SessionID', this.Id)
+    }
+
+    async joinSession(sessionName: string, participantName: string): Promise<ISession>{
+        try {
+            var result = await this.apiService.JoinSession(sessionName, participantName)
+            toastr.info(`Session: ${result.Name}`, 'Joined Session', { closeButton: true, progressBar: true })
+            this.update(result)
+            return result
+        }
+        catch (error){
+            toastr.error(`Error getting session.`)
+        }
     }
 }

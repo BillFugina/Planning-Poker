@@ -26,6 +26,11 @@ export class App {
         route: ['master'],
         name: 'master',
         moduleId: 'routes/master/master'
+      },
+      {
+        route: ['participant'],
+        name: 'participant',
+        moduleId: 'routes/participant/participant'
       }
     ]);
   }

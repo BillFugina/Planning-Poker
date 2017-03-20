@@ -8,6 +8,7 @@ import * as toastr from 'toastr'
 export class Home {
     session: string
     master: string
+    participant: string
 
     constructor(
         private sessionService: ISessionService,
@@ -18,5 +19,10 @@ export class Home {
     async startSession() {
         await this.sessionService.startSession(this.session, this.master)
         this.router.navigateToRoute('master')
+    }
+
+    async joinSession() {
+        await this.sessionService.joinSession(this.session, this.participant)
+        this.router.navigateToRoute('participant')
     }
 }

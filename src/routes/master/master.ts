@@ -1,5 +1,5 @@
 import { NavigationInstruction, RouteConfig } from 'aurelia-router'
-import { ISession } from 'model/domain'
+import { ISession } from 'model'
 import { ISessionService, IApiService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
