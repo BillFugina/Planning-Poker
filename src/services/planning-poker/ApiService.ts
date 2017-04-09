@@ -81,4 +81,19 @@ export class ApiService implements IApiService {
         }
     }
 
+    async StartRound(sessionId: IGuid): Promise<number>{
+        try {
+            var response = await this.client.fetch(`sessions/${sessionId}/participants`, {
+                method: 'get'
+            })
+
+            var roundId = await response.json()
+            return roundId
+
+        }
+        catch (error){
+            return undefined
+        }
+    }
+
 }

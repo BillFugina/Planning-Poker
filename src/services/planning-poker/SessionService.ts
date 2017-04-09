@@ -23,11 +23,11 @@ export class SessionService implements ISessionService {
     get CurrentRound(): IRound { return this._session.CurrentRound }
 
     public async refresh(): Promise<boolean> {
-        if (!this._session){
+        if (!this._session) {
             var id = this.getSessionIdFromStorage();
-            if (id){
+            if (id) {
                 var session = await this.apiService.CheckSession(id)
-                if (session){
+                if (session) {
                     this.update(session)
                 }
             }
@@ -52,7 +52,7 @@ export class SessionService implements ISessionService {
         }
     }
 
-    async getSession(sessionId: IGuid): Promise<ISession>{
+    async getSession(sessionId: IGuid): Promise<ISession> {
         try {
             var result = await this.apiService.GetSession(sessionId);
             this.update(result)
@@ -67,19 +67,30 @@ export class SessionService implements ISessionService {
         return this.localStorageService.get<IGuid>('SessionID')
     }
 
-    private putSessionIdIntoStorage(sessionId: IGuid){
+    private putSessionIdIntoStorage(sessionId: IGuid) {
         this.localStorageService.set('SessionID', this.Id)
     }
 
-    async joinSession(sessionName: string, participantName: string): Promise<ISession>{
+    async joinSession(sessionName: string, participantName: string): Promise<ISession> {
         try {
             var result = await this.apiService.JoinSession(sessionName, participantName)
             toastr.info(`Session: ${result.Name}`, 'Joined Session', { closeButton: true, progressBar: true })
             this.update(result)
             return result
         }
-        catch (error){
+        catch (error) {
             toastr.error(`Error getting session.`)
         }
     }
+    async startRound(sessionId: IGuid): Promise<number> {
+        try {
+            var result = await this.apiService.StartRound(sessionId);
+            toastr.info(`Starting round: ${result}`, 'Start Round', { closeButton: true, progressBar: true })
+            return result
+        }
+        catch (error) {
+            toastr.error(`Error starting round.`)
+        }
+    }
+
 }

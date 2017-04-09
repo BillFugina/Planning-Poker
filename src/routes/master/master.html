@@ -1,10 +1,38 @@
 <template>
-    <div class="container">
-        <div class="panel panel-default">
+    <require from="resources/app.css"></require>
+    <div class="session">
+        <div class="header panel panel-default">
             <h1>Session: ${session.Name}</h1>
         </div>
-        <div>
-            <h3>Participants</h3>
+        <div class="info center">
+            <div class="panel panel-default">
+                <h3>Controls</h3>
+                <button type="button" class="btn btn-primary" click.delegate="startRound()">
+                    <i class="fa fa-play" aria-hidden="true"></i>
+                    Start Round
+                </button>
+            </div>
+            <div class="panel panel-default">
+                <h3>Participants</h3>
+                <ul class="list">
+                    <li repeat.for="participant of session.Participants">
+                        <div class="icon"><i class="fa fa-lg ${participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
+                        <div class="name">${participant.Name}</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel panel-default">
+                <h3>Current Round</h3>
+                <ul class="list">
+                    <li repeat.for="participant of session.Participants">
+                        <div class="icon"><i class="fa fa-lg ${participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
+                        <div class="name">${participant.Name}</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel panel-default">
+                <h3>Rounds</h3>
+            </div>
         </div>
     </div>
 </template>

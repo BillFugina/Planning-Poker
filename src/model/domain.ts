@@ -10,7 +10,7 @@ export interface IParticipantApplication {
 }
 
 export interface ISession { 
-    Id: string
+    Id: IGuid
     Name: string
     Master: IParticipant
     Participants: IParticipant[]

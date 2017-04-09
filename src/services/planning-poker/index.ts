@@ -4,6 +4,7 @@ export interface IApiService {
     GetSession(sessionId: IGuid): Promise<ISession>
     CheckSession(sessionId: IGuid): Promise<ISession>
     JoinSession(sessionName: string, participantName: string): Promise<ISession>
+    StartRound(sessionId: IGuid): Promise<number>
 }
 
 
@@ -13,6 +14,7 @@ export interface ISessionService extends ISession {
     startSession(session: string, master: string): Promise<ISession>
     getSession(sessionId: IGuid): Promise<ISession>
     joinSession(sessionName: string, participantName: string): Promise<ISession>
+    startRound(sessionId: IGuid): Promise<number>
 }
 
 export interface ISimpleService {

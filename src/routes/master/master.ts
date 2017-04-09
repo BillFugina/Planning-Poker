@@ -18,4 +18,8 @@ export class Master {
     activate(params?: any, config?: RouteConfig, nav?: NavigationInstruction){
         this.session = this.sessionService
     }
+
+    startRound(){
+        var roundId = this.sessionService.startRound(this.session.Id);
+    }
 }
