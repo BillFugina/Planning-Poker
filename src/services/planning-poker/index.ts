@@ -20,3 +20,7 @@ export interface ISessionService extends ISession {
 export interface ISimpleService {
     HelloWorld(): string
 }
+
+export interface INotificationService {
+    
+}

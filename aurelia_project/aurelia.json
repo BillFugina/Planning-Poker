@@ -155,7 +155,8 @@
               "build/toastr.css",
               "build/toastr.min.css"
             ]
-          }
+          },
+          "pusher-js"
         ]
       }
     ]
