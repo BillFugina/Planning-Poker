@@ -24,9 +24,10 @@
             <div class="panel panel-default">
                 <h3>Current Round</h3>
                 <ul class="list">
-                    <li repeat.for="participant of session.Participants">
-                        <div class="icon"><i class="fa fa-lg ${participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
-                        <div class="name">${participant.Name}</div>
+                    <li repeat.for="vote of session.CurrentRound.Votes">
+                        <div class="icon"><i class="fa fa-lg ${vote.Participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
+                        <div class="name">${vote.Participant.Name}</div>
+                        <div class="vote">${vote.Value}</div>
                     </li>
                 </ul>
             </div>

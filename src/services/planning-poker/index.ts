@@ -22,5 +22,12 @@ export interface ISimpleService {
 }
 
 export interface INotificationService {
-    
+    joinSession(sessionName: string)
+    registerVote (data)
+    registerParticipant (data)
+}
+
+export interface IStateService {
+    session : ISession
+    setSession(session: ISession)
 }

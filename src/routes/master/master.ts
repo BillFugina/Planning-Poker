@@ -1,5 +1,5 @@
 import { NavigationInstruction, RouteConfig } from 'aurelia-router'
-import { ISession } from 'model'
+import { ISession, IParticipant } from 'model'
 import { ISessionService, IApiService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
@@ -21,5 +21,11 @@ export class Master {
 
     startRound(){
         var roundId = this.sessionService.startRound(this.session.Id);
+    }
+
+    participantVote(participant: IParticipant){
+        var vote = this.sessionService.CurrentRound.Votes.find(v => v.Participant.Id == participant.Id);
+        var result = vote ? vote.Value : '-'
+        return result
     }
 }

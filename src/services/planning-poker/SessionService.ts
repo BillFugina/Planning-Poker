@@ -1,4 +1,4 @@
-import { IApiService } from 'services/planning-poker';
+import { IApiService, INotificationService, IStateService } from 'services/planning-poker';
 import { DI } from 'dependency-injection'
 import { ISessionService, ISimpleService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
@@ -6,49 +6,63 @@ import { IRound, IParticipant, ISession, ISessionId } from 'model'
 import { ILocalStorageService } from "services/storage"
 import * as toastr from 'toastr'
 
-@inject('ILocalStorageService', 'IApiService')
+@inject('ILocalStorageService', 'IApiService', 'INotificationService', 'IStateService')
 export class SessionService implements ISessionService {
-    private _session: ISession
 
     constructor(
         private localStorageService: ILocalStorageService,
-        private apiService: IApiService
+        private apiService: IApiService,
+        private notificationService: INotificationService,
+        private stateService: IStateService
     ) {
     }
 
-    get Id(): IGuid { return this._session.Id }
-    get Name(): string { return this._session.Name }
-    get Master(): IParticipant { return this._session.Master }
-    get Participants(): IParticipant[] { return this._session.Participants }
-    get CurrentRound(): IRound { return this._session.CurrentRound }
+    get Id(): IGuid { return this.stateService.session.Id }
+    get Name(): string { return this.stateService.session.Name }
+    get Master(): IParticipant { return this.stateService.session.Master }
+    get Participants(): IParticipant[] { return this.stateService.session.Participants }
+    get CurrentRound(): IRound { return this.stateService.session.CurrentRound }
 
     public async refresh(): Promise<boolean> {
-        if (!this._session) {
+        if (this.stateService.session.Id === '') {
             var id = this.getSessionIdFromStorage();
             if (id) {
-                var session = await this.apiService.CheckSession(id)
-                if (session) {
-                    this.update(session)
+                try {
+                    var session = await this.apiService.CheckSession(id)
+                    if (session) {
+                        this.update(session)
+                        this.notificationService.joinSession(session.Name)
+                    }
+                    else {
+                        toastr.info(`Previous session has ended.`)
+                        this.removeSessionIdFromStorage();
+                    }
+                }
+                catch (error) {
+                    toastr.warning(`Could not continue last session.`)
+                    this.removeSessionIdFromStorage();
                 }
             }
         }
-        var result = !!this._session
+        var result = !!this.stateService.session
         return result;
     }
 
     update(newSession: ISession) {
-        this._session = newSession;
-        this.putSessionIdIntoStorage(this._session.Id)
+        this.stateService.setSession(newSession)
+        this.putSessionIdIntoStorage(this.stateService.session.Id)
     }
     async startSession(session: string, master: string): Promise<ISession> {
         try {
             var result = await this.apiService.StartSession(session, master)
             toastr.info(`Session: ${result.Name}`, 'Session Started', { closeButton: true, progressBar: true })
             this.update(result)
+            this.notificationService.joinSession(session)
             return result
         }
         catch (error) {
             toastr.error(`Error starting session.`)
+            this.removeSessionIdFromStorage();
         }
     }
 
@@ -69,6 +83,10 @@ export class SessionService implements ISessionService {
 
     private putSessionIdIntoStorage(sessionId: IGuid) {
         this.localStorageService.set('SessionID', this.Id)
+    }
+
+    private removeSessionIdFromStorage(){
+        this.localStorageService.remove('SessionID');
     }
 
     async joinSession(sessionName: string, participantName: string): Promise<ISession> {
