@@ -44,7 +44,7 @@ export class SessionService implements ISessionService {
                 }
             }
         }
-        var result = !!this.stateService.session
+        var result = !!(this.stateService.session && this.stateService.session.Id != '')
         return result;
     }
 
