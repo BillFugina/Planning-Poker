@@ -6,6 +6,7 @@ const blankSession: ISession = {
         Id: 0,
         State: 0,
         Votes: [],
+        End: new Date()
     },
     Id: '',
     Master: {

@@ -1,20 +1,22 @@
-import { ISession, ISessionId } from 'model';
+import { ISession, ISessionId, IRound } from 'model';
 export interface IApiService {
     StartSession(sessionName: string, masterName: string): Promise<ISession>
     GetSession(sessionId: IGuid): Promise<ISession>
     CheckSession(sessionId: IGuid): Promise<ISession>
     JoinSession(sessionName: string, participantName: string): Promise<ISession>
-    StartRound(sessionId: IGuid): Promise<number>
+    StartRound(sessionId: IGuid): Promise<IRound>
 }
 
 
 export interface ISessionService extends ISession {
     refresh(): Promise<boolean>
-    update(newSession: ISession)
+    updateSession(newSession: ISession)
     startSession(session: string, master: string): Promise<ISession>
     getSession(sessionId: IGuid): Promise<ISession>
     joinSession(sessionName: string, participantName: string): Promise<ISession>
-    startRound(sessionId: IGuid): Promise<number>
+    startRound(sessionId: IGuid): Promise<IRound>
+    isInActiveRound() : boolean
+    timeRemaining : number
 }
 
 export interface ISimpleService {

@@ -2,7 +2,7 @@ import { DI } from 'dependency-injection'
 import { ISessionService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { IApiService } from 'services/planning-poker'
-import { ISession, ISessionApplication, IParticipantApplication } from 'model'
+import { ISession, ISessionApplication, IParticipantApplication, IRound } from 'model'
 import { HttpClient, json } from 'aurelia-fetch-client'
 
 export class ApiService implements IApiService {
@@ -81,7 +81,7 @@ export class ApiService implements IApiService {
         }
     }
 
-    async StartRound(sessionId: IGuid): Promise<number>{
+    async StartRound(sessionId: IGuid): Promise<IRound>{
         try {
             var response = await this.client.fetch(`sessions/${sessionId}/participants`, {
                 method: 'get'

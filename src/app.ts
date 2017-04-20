@@ -2,14 +2,14 @@ import {ISessionService} from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
 import { Router, RouterConfiguration, PipelineStep, NavigationInstruction, Next, RedirectToRoute } from 'aurelia-router'
-import { ISimpleService } from "services/planning-poker";
+import { ISimpleService } from 'services/planning-poker'
+import * as model from 'model'
 
 @inject(DI.ISimpleService)
 export class App {
   router: Router;
 
   constructor(private simpleService: ISimpleService) {
-    
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {

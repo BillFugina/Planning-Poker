@@ -31,6 +31,7 @@ export interface IRound {
     Id: number
     State: RoundState
     Votes: IVote[]
+    End: Date
 }
 
 export interface IVote { 

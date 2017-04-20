@@ -23,6 +23,29 @@ export class SessionService implements ISessionService {
     get Participants(): IParticipant[] { return this.stateService.session.Participants }
     get CurrentRound(): IRound { return this.stateService.session.CurrentRound }
 
+    isInActiveRound() : boolean {
+        return this.CurrentRound.State == RoundState.Started
+    }
+    timeRemaining : number
+
+    updateRound = () => {
+        if (this.isInActiveRound){
+            const now = Date.now()
+            const end = this.CurrentRound.End.getTime()
+            const diff = end - now
+
+            this.timeRemaining = Math.floor(diff/1000);
+
+            if (diff < 1000){
+                this.CurrentRound.State == RoundState.Complete
+            }
+
+            if (this.CurrentRound.State == RoundState.Started){
+                setTimeout(this.updateRound, 500);
+            }
+        }
+    }
+
     public async refresh(): Promise<boolean> {
         if (this.stateService.session.Id === '') {
             var id = this.getSessionIdFromStorage();
@@ -30,7 +53,7 @@ export class SessionService implements ISessionService {
                 try {
                     var session = await this.apiService.CheckSession(id)
                     if (session) {
-                        this.update(session)
+                        this.updateSession(session)
                         this.notificationService.joinSession(session.Name)
                     }
                     else {
@@ -48,7 +71,7 @@ export class SessionService implements ISessionService {
         return result;
     }
 
-    update(newSession: ISession) {
+    updateSession(newSession: ISession) {
         this.stateService.setSession(newSession)
         this.putSessionIdIntoStorage(this.stateService.session.Id)
     }
@@ -56,7 +79,7 @@ export class SessionService implements ISessionService {
         try {
             var result = await this.apiService.StartSession(session, master)
             toastr.info(`Session: ${result.Name}`, 'Session Started', { closeButton: true, progressBar: true })
-            this.update(result)
+            this.updateSession(result)
             this.notificationService.joinSession(session)
             return result
         }
@@ -69,7 +92,7 @@ export class SessionService implements ISessionService {
     async getSession(sessionId: IGuid): Promise<ISession> {
         try {
             var result = await this.apiService.GetSession(sessionId);
-            this.update(result)
+            this.updateSession(result)
             return result
         }
         catch (error) {
@@ -93,17 +116,19 @@ export class SessionService implements ISessionService {
         try {
             var result = await this.apiService.JoinSession(sessionName, participantName)
             toastr.info(`Session: ${result.Name}`, 'Joined Session', { closeButton: true, progressBar: true })
-            this.update(result)
+            this.updateSession(result)
             return result
         }
         catch (error) {
             toastr.error(`Error getting session.`)
         }
     }
-    async startRound(sessionId: IGuid): Promise<number> {
+    async startRound(sessionId: IGuid): Promise<IRound> {
         try {
-            var result = await this.apiService.StartRound(sessionId);
+            var result = await this.apiService.StartRound(sessionId)
             toastr.info(`Starting round: ${result}`, 'Start Round', { closeButton: true, progressBar: true })
+            this.stateService.session.CurrentRound = result
+            this.updateRound()
             return result
         }
         catch (error) {
