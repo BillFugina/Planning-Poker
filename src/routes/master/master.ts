@@ -13,12 +13,15 @@ export class Master {
         private session: ISessionService
     ) {
     }
-
     activate(params?: any, config?: RouteConfig, nav?: NavigationInstruction){
     }
 
     startRound(){
         var roundId = this.session.startRound(this.session.Id);
+    }
+
+    endRound(){
+        this.session.endRound(this.session.Id, this.session.CurrentRound.Id);
     }
 
     participantVote(participant: IParticipant){

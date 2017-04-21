@@ -34,6 +34,12 @@
             </div>
             <div class="panel panel-default">
                 <h3>Rounds</h3>
+                <ul class="list">
+                    <li repeat.for="round of session.Rounds">
+                        <div>${round.Id}</div>
+                        <div>${round.Average}</div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

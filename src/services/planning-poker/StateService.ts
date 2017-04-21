@@ -1,13 +1,8 @@
-import { IParticipant, IRound, ISession } from 'model'
+import { IParticipant, Round, ISession } from 'model'
 import { IStateService } from "services/planning-poker";
 
 const blankSession: ISession = {
-    CurrentRound: {
-        Id: 0,
-        State: 0,
-        Votes: [],
-        End: new Date()
-    },
+    CurrentRound: new Round(),
     Id: '',
     Master: {
         Id: '',

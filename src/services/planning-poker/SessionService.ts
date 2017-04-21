@@ -2,7 +2,7 @@ import { IApiService, INotificationService, IStateService } from 'services/plann
 import { DI } from 'dependency-injection'
 import { ISessionService, ISimpleService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
-import { IRound, IParticipant, ISession, ISessionId } from 'model'
+import { Round, IParticipant, ISession, ISessionId, RoundState, IGuid } from 'model'
 import { ILocalStorageService } from "services/storage"
 import * as toastr from 'toastr'
 import * as moment from 'moment'
@@ -17,13 +17,13 @@ export class SessionService implements ISessionService {
         private stateService: IStateService
     ) {
     }
-
     get Id(): IGuid { return this.stateService.session.Id }
     get Name(): string { return this.stateService.session.Name }
     get Master(): IParticipant { return this.stateService.session.Master }
     get Participants(): IParticipant[] { return this.stateService.session.Participants }
-    get CurrentRound(): IRound { return this.stateService.session.CurrentRound }
+    get CurrentRound(): Round { return this.stateService.session.CurrentRound }
 
+    Rounds : Round[] = [];
     isInActiveRound : boolean
     timeRemaining : number
 
@@ -37,8 +37,9 @@ export class SessionService implements ISessionService {
 
             if (diff < 1000){
                 this.CurrentRound.State = RoundState.Complete
+                this.endRound(this.stateService.session.Id, this.CurrentRound.Id);
                 this.isInActiveRound = false;
-            }
+            }            
 
             if (this.CurrentRound.State == RoundState.Started){
                 this.isInActiveRound = true;
@@ -126,7 +127,7 @@ export class SessionService implements ISessionService {
             toastr.error(`Error getting session.`)
         }
     }
-    async startRound(sessionId: IGuid): Promise<IRound> {
+    async startRound(sessionId: IGuid): Promise<Round> {
         try {
             var result = await this.apiService.StartRound(sessionId)
             toastr.info(`Starting round: ${result}`, 'Start Round', { closeButton: true, progressBar: true })
@@ -136,6 +137,23 @@ export class SessionService implements ISessionService {
         }
         catch (error) {
             toastr.error(`Error starting round.`)
+        }
+    }
+
+    async endRound(sessionId: IGuid, roundId : number): Promise<void> {
+        try {
+            var result = await this.apiService.EndRound(sessionId, roundId)
+            toastr.warning(`Round Over`, 'Round Closed', { closeButton: true, progressBar: true })
+            this.stateService.session.CurrentRound.State = RoundState.Complete
+            this.Rounds.push(this.CurrentRound)
+            this.Rounds.sort((a, b) => {
+                return b.Id - a.Id
+            })
+            this.updateRound()
+            return result
+        }
+        catch (error) {
+            toastr.error(`Error ending round.`)
         }
     }
 

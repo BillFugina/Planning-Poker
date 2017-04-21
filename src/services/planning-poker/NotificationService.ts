@@ -2,7 +2,7 @@ import { inject } from 'aurelia-framework'
 import * as toastr from 'toastr';
 import * as pusher from 'pusher-js'
 import { INotificationService, IStateService } from "services/planning-poker";
-import { IParticipant, IVote, IRound } from "model"
+import { IParticipant, IVote, IRound, Round } from "model"
 
 @inject( 'IStateService' )
 export class NotificationService implements INotificationService {
@@ -39,6 +39,6 @@ export class NotificationService implements INotificationService {
 
     startRound = (data: IRound) => {
         toastr.success('Round Started');
-        this.stateService.session.CurrentRound = data
+        this.stateService.session.CurrentRound = new Round(data)
     }
 }
