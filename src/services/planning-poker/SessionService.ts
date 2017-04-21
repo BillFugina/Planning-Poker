@@ -5,6 +5,7 @@ import { inject } from 'aurelia-framework'
 import { IRound, IParticipant, ISession, ISessionId } from 'model'
 import { ILocalStorageService } from "services/storage"
 import * as toastr from 'toastr'
+import * as moment from 'moment'
 
 @inject('ILocalStorageService', 'IApiService', 'INotificationService', 'IStateService')
 export class SessionService implements ISessionService {
@@ -23,24 +24,24 @@ export class SessionService implements ISessionService {
     get Participants(): IParticipant[] { return this.stateService.session.Participants }
     get CurrentRound(): IRound { return this.stateService.session.CurrentRound }
 
-    isInActiveRound() : boolean {
-        return this.CurrentRound.State == RoundState.Started
-    }
+    isInActiveRound : boolean
     timeRemaining : number
 
     updateRound = () => {
-        if (this.isInActiveRound){
-            const now = Date.now()
-            const end = this.CurrentRound.End.getTime()
+        if (this.CurrentRound.State == RoundState.Started){
+            const now = new Date().getTime()
+            const end = moment(this.CurrentRound.End).toDate().getTime()
             const diff = end - now
 
             this.timeRemaining = Math.floor(diff/1000);
 
             if (diff < 1000){
-                this.CurrentRound.State == RoundState.Complete
+                this.CurrentRound.State = RoundState.Complete
+                this.isInActiveRound = false;
             }
 
             if (this.CurrentRound.State == RoundState.Started){
+                this.isInActiveRound = true;
                 setTimeout(this.updateRound, 500);
             }
         }
@@ -68,12 +69,14 @@ export class SessionService implements ISessionService {
             }
         }
         var result = !!(this.stateService.session && this.stateService.session.Id != '')
+
         return result;
     }
 
     updateSession(newSession: ISession) {
         this.stateService.setSession(newSession)
         this.putSessionIdIntoStorage(this.stateService.session.Id)
+        this.updateRound();
     }
     async startSession(session: string, master: string): Promise<ISession> {
         try {

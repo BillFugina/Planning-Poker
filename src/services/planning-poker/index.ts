@@ -15,7 +15,7 @@ export interface ISessionService extends ISession {
     getSession(sessionId: IGuid): Promise<ISession>
     joinSession(sessionName: string, participantName: string): Promise<ISession>
     startRound(sessionId: IGuid): Promise<IRound>
-    isInActiveRound() : boolean
+    isInActiveRound : boolean
     timeRemaining : number
 }
 

@@ -7,11 +7,11 @@
         <div class="info center">
             <div class="panel panel-default">
                 <h3>Controls</h3>
-                <button type="button" class="btn btn-primary" click.delegate="startRound()" disabled.bind="session.isInActiveRound()">
+                <button type="button" class="btn btn-primary" click.delegate="startRound()" disabled.bind="session.isInActiveRound">
                     <i class="fa fa-play" aria-hidden="true"></i>
                     Start Round
                 </button>
-                <div show.bind="session.isInActiveRound()">Time remaining: ${session.timeRemaining}</div>
+                <div show.bind="session.isInActiveRound">Time remaining: ${session.timeRemaining}</div>
             </div>
             <div class="panel panel-default">
                 <h3>Participants</h3>

@@ -7,24 +7,22 @@ import * as toastr from 'toastr'
 
 @inject(DI.ISessionService)
 export class Master {
-    session: ISession
     master: string
 
     constructor(
-        private sessionService: ISessionService
+        private session: ISessionService
     ) {
     }
 
     activate(params?: any, config?: RouteConfig, nav?: NavigationInstruction){
-        this.session = this.sessionService
     }
 
     startRound(){
-        var roundId = this.sessionService.startRound(this.session.Id);
+        var roundId = this.session.startRound(this.session.Id);
     }
 
     participantVote(participant: IParticipant){
-        var vote = this.sessionService.CurrentRound.Votes.find(v => v.Participant.Id == participant.Id);
+        var vote = this.session.CurrentRound.Votes.find(v => v.Participant.Id == participant.Id);
         var result = vote ? vote.Value : '-'
         return result
     }
