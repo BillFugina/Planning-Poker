@@ -21,6 +21,7 @@ export class StateService implements IStateService {
     }
 
     setSession(newSession: ISession) {
-        this.session = { ...blankSession, ...newSession }
+        newSession.CurrentRound = new Round(newSession.CurrentRound)
+        this.session = newSession
     }
 }

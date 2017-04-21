@@ -81,7 +81,7 @@ export class ApiService implements IApiService {
         }
     }
 
-    async StartRound(sessionId: IGuid): Promise<Round>{
+    async PrepareRound(sessionId: IGuid): Promise<Round>{
         try {
             var response = await this.client.fetch(`sessions/${sessionId}/rounds`, {
                 method: 'get'

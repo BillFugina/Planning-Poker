@@ -7,9 +7,13 @@
         <div class="info center">
             <div class="panel panel-default">
                 <h3>Controls</h3>
-                <button type="button" class="btn btn-primary" click.delegate="startRound()" disabled.bind="session.isInActiveRound">
+                <button type="button" class="btn btn-warning" click.delegate="prepareRound()" disabled.bind="!enablePrepare">
                     <i class="fa fa-play" aria-hidden="true"></i>
-                    Start Round
+                    Prepare Round
+                </button>
+                <button type="button" class="btn btn-success" click.delegate="startRound()" disabled.bind="!enableStart">
+                    <i class="fa fa-flag-checkered" aria-hidden="true"></i>
+                    Start
                 </button>
                 <div show.bind="session.isInActiveRound">Time remaining: ${session.timeRemaining}</div>
             </div>
@@ -29,6 +33,11 @@
                         <div class="icon"><i class="fa fa-lg ${vote.Participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
                         <div class="name">${vote.Participant.Name}</div>
                         <div class="vote">${vote.Value}</div>
+                    </li>
+                    <li>
+                        <div></div>
+                        <div>Average: </div>
+                        <div>${session.CurrentAverage}</div>
                     </li>
                 </ul>
             </div>

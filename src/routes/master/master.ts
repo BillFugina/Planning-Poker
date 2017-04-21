@@ -1,5 +1,5 @@
 import { NavigationInstruction, RouteConfig } from 'aurelia-router'
-import { ISession, IParticipant } from 'model'
+import { ISession, IParticipant, RoundState } from 'model'
 import { ISessionService, IApiService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
@@ -13,11 +13,17 @@ export class Master {
         private session: ISessionService
     ) {
     }
-    activate(params?: any, config?: RouteConfig, nav?: NavigationInstruction){
+
+    get enablePrepare() {
+        return this.session.CurrentRound.State != RoundState.Pending
     }
 
-    startRound(){
-        var roundId = this.session.startRound(this.session.Id);
+    get enableStart() {
+        return this.session.CurrentRound.State == RoundState.Pending
+    }
+
+    prepareRound(){
+        var roundId = this.session.prepareRound(this.session.Id);
     }
 
     endRound(){

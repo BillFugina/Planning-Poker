@@ -19,7 +19,7 @@ export class NotificationService implements INotificationService {
         this._channel = this._pusher.subscribe(sessionName)
         this._channel.bind('RegisterVote', this.registerVote)
         this._channel.bind('RegisterParticipant', this.registerParticipant)
-        this._channel.bind('StartRound', this.startRound)
+        this._channel.bind('PrepareRound', this.prepareRound)
     }
 
     leaveSession() {
@@ -37,8 +37,9 @@ export class NotificationService implements INotificationService {
         this.stateService.session.Participants.push(data)
     }
 
-    startRound = (data: IRound) => {
-        toastr.success('Round Started');
-        this.stateService.session.CurrentRound = new Round(data)
+    prepareRound = (data: IRound) => {
+        toastr.success('Round Ready')
+        const round = new Round(data)
+        this.stateService.session.CurrentRound = round
     }
 }

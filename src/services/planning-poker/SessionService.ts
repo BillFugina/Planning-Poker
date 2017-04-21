@@ -23,6 +23,10 @@ export class SessionService implements ISessionService {
     get Participants(): IParticipant[] { return this.stateService.session.Participants }
     get CurrentRound(): Round { return this.stateService.session.CurrentRound }
 
+    get CurrentAverage(): number { 
+        return this.stateService.session.CurrentRound.Average
+    }
+
     Rounds : Round[] = [];
     isInActiveRound : boolean
     timeRemaining : number
@@ -127,16 +131,16 @@ export class SessionService implements ISessionService {
             toastr.error(`Error getting session.`)
         }
     }
-    async startRound(sessionId: IGuid): Promise<Round> {
+    async prepareRound(sessionId: IGuid): Promise<Round> {
         try {
-            var result = await this.apiService.StartRound(sessionId)
-            toastr.info(`Starting round: ${result}`, 'Start Round', { closeButton: true, progressBar: true })
+            var result = await this.apiService.PrepareRound(sessionId)
+            toastr.info(`Preparing round: ${result}`, 'Round Ready', { closeButton: true, progressBar: true })
             this.stateService.session.CurrentRound = result
             this.updateRound()
             return result
         }
         catch (error) {
-            toastr.error(`Error starting round.`)
+            toastr.error(`Error preparing round.`)
         }
     }
 
