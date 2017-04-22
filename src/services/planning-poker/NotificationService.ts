@@ -30,7 +30,7 @@ export class NotificationService implements INotificationService {
 
     registerVote = (data: IVote) => {
         toastr.success(`Vote`)
-        this.stateService.session.CurrentRound.Votes.push(data)
+        this.stateService.session.CurrentRound.addVote(data)
     }
 
     registerParticipant =  (data : IParticipant) => {

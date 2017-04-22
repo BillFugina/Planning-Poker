@@ -73,6 +73,14 @@ export class Round implements IRound {
             Object.assign(this, round);
         }
     }
+
+    addVote(vote : IVote){
+        const existingVoteIndex = this.Votes.findIndex(v => v.Participant.Id == vote.Participant.Id);
+        if (existingVoteIndex >= 0) {
+            this.Votes.splice(existingVoteIndex, 1)
+        }
+        this.Votes.push(vote)
+    }
 }
 
 export interface IVote { 
