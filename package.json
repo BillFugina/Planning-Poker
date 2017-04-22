@@ -16,9 +16,8 @@
     "bootstrap": "^3.3.7",
     "jquery": "^2.2.4",
     "moment": "^2.18.1",
-    "pusher-js": "^4.0.0",
+    "pusher-js": "^4.1.0",
     "requirejs": "^2.3.2",
-    "signalr": "^2.2.1",
     "text": "github:requirejs/text#latest",
     "toastr": "^2.1.2",
     "whatwg-fetch": "^2.0.3"

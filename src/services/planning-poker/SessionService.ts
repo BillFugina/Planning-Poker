@@ -9,7 +9,6 @@ import * as moment from 'moment'
 
 @inject('ILocalStorageService', 'IApiService', 'INotificationService', 'IStateService')
 export class SessionService implements ISessionService {
-
     constructor(
         private localStorageService: ILocalStorageService,
         private apiService: IApiService,
@@ -23,29 +22,29 @@ export class SessionService implements ISessionService {
     get Participants(): IParticipant[] { return this.stateService.session.Participants }
     get CurrentRound(): Round { return this.stateService.session.CurrentRound }
 
-    get CurrentAverage(): number { 
+    get CurrentAverage(): number {
         return this.stateService.session.CurrentRound.Average
     }
 
-    Rounds : Round[] = [];
-    isInActiveRound : boolean
-    timeRemaining : number
+    Rounds: Round[] = [];
+    isInActiveRound: boolean
+    timeRemaining: number
 
     updateRound = () => {
-        if (this.CurrentRound.State == RoundState.Started){
+        if (this.CurrentRound.State == RoundState.Started) {
             const now = new Date().getTime()
             const end = moment(this.CurrentRound.End).toDate().getTime()
             const diff = end - now
 
-            this.timeRemaining = Math.floor(diff/1000);
+            this.timeRemaining = Math.floor(diff / 1000);
 
-            if (diff < 1000){
+            if (diff < 1000) {
                 this.CurrentRound.State = RoundState.Complete
                 this.endRound(this.stateService.session.Id, this.CurrentRound.Id);
                 this.isInActiveRound = false;
-            }            
+            }
 
-            if (this.CurrentRound.State == RoundState.Started){
+            if (this.CurrentRound.State == RoundState.Started) {
                 this.isInActiveRound = true;
                 setTimeout(this.updateRound, 500);
             }
@@ -116,7 +115,7 @@ export class SessionService implements ISessionService {
         this.localStorageService.set('SessionID', this.Id)
     }
 
-    private removeSessionIdFromStorage(){
+    private removeSessionIdFromStorage() {
         this.localStorageService.remove('SessionID');
     }
 
@@ -144,17 +143,30 @@ export class SessionService implements ISessionService {
         }
     }
 
-    async endRound(sessionId: IGuid, roundId : number): Promise<void> {
+    async startCountdown(sessionId: string, roundId: number): Promise<Round> {
+        try {
+            var result = await this.apiService.StartCountdown(sessionId, roundId)
+            toastr.warning(`Countdown Started`, 'Round Ending', { closeButton: true, progressBar: true })
+            this.stateService.session.CurrentRound = result
+            this.updateRound()
+            return result
+        }
+        catch (error) {
+            toastr.error(`Error ending round.`)
+        }
+    }
+
+
+    async endRound(sessionId: IGuid, roundId: number): Promise<void> {
         try {
             var result = await this.apiService.EndRound(sessionId, roundId)
-            toastr.warning(`Round Over`, 'Round Closed', { closeButton: true, progressBar: true })
+            toastr.error(`Round Over`, 'Round Closed', { closeButton: true, progressBar: true })
             this.stateService.session.CurrentRound.State = RoundState.Complete
             this.Rounds.push(this.CurrentRound)
             this.Rounds.sort((a, b) => {
                 return b.Id - a.Id
             })
             this.updateRound()
-            return result
         }
         catch (error) {
             toastr.error(`Error ending round.`)

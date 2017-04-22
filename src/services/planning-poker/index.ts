@@ -5,7 +5,8 @@ export interface IApiService {
     CheckSession(sessionId: IGuid): Promise<ISession>
     JoinSession(sessionName: string, participantName: string): Promise<ISession>
     PrepareRound(sessionId: IGuid): Promise<Round>
-    EndRound(sessionId: IGuid, roundId : number): Promise<void>    
+    EndRound(sessionId: IGuid, roundId : number): Promise<void>
+    StartCountdown(sessionId: IGuid, roundId : number): Promise<Round>
 }
 
 
@@ -16,6 +17,7 @@ export interface ISessionService extends ISession {
     getSession(sessionId: IGuid): Promise<ISession>
     joinSession(sessionName: string, participantName: string): Promise<ISession>
     prepareRound(sessionId: IGuid): Promise<Round>
+    startCountdown(sessionId: IGuid, roundId : number) : Promise<Round>
     endRound(sessionId: IGuid, roundId : number): Promise<void>
     isInActiveRound : boolean
     timeRemaining : number

@@ -11,7 +11,7 @@
                     <i class="fa fa-play" aria-hidden="true"></i>
                     Prepare Round
                 </button>
-                <button type="button" class="btn btn-success" click.delegate="startRound()" disabled.bind="!enableStart">
+                <button type="button" class="btn btn-success" click.delegate="startCountdown()" disabled.bind="!enableStart">
                     <i class="fa fa-flag-checkered" aria-hidden="true"></i>
                     Start
                 </button>
@@ -27,14 +27,14 @@
                 </ul>
             </div>
             <div class="panel panel-default">
-                <h3>Current Round</h3>
+                <h3>Current Round<span if.bind="inRound && session.CurrentRound.Id > 0">: ${session.CurrentRound.Id}</span></h3>
                 <ul class="list">
                     <li repeat.for="vote of session.CurrentRound.Votes">
                         <div class="icon"><i class="fa fa-lg ${vote.Participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
                         <div class="name">${vote.Participant.Name}</div>
-                        <div class="vote">${vote.Value}</div>
+                        <div class="vote"><i if.bind="inRound" class="fa fa-check"></i> <span if.bind="!inRound">${vote.Value}</span></div>
                     </li>
-                    <li>
+                    <li if.bind="!inRound">
                         <div></div>
                         <div>Average: </div>
                         <div>${session.CurrentAverage}</div>

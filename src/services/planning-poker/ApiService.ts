@@ -96,6 +96,20 @@ export class ApiService implements IApiService {
         }
     }
 
+    async StartCountdown(sessionId: IGuid, roundId : number): Promise<Round>{
+        try {
+            var response = await this.client.fetch(`sessions/${sessionId}/rounds/${roundId}`, {
+                method: 'get'
+            })
+
+            var round = await response.json()
+            var result = new Round(round);
+            return result
+        }
+        catch (error){
+            return undefined
+        }
+    }
     async EndRound(sessionId: IGuid, roundId : number): Promise<void>{
         try {
             var response = await this.client.fetch(`sessions/${sessionId}/rounds/${roundId}`, {

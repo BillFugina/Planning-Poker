@@ -156,7 +156,12 @@
               "build/toastr.min.css"
             ]
           },
-          "pusher-js",
+          {
+            "name": "pusher-js",
+            "main": "dist/web/pusher",
+            "path": "../node_modules/pusher-js",
+            "resources": []
+          },
           {
             "name": "moment",
             "main": "./moment.js",

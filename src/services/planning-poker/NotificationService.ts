@@ -20,6 +20,7 @@ export class NotificationService implements INotificationService {
         this._channel.bind('RegisterVote', this.registerVote)
         this._channel.bind('RegisterParticipant', this.registerParticipant)
         this._channel.bind('PrepareRound', this.prepareRound)
+        this._channel.bind('StartCountdown', this.startCountdown)
     }
 
     leaveSession() {
@@ -40,6 +41,17 @@ export class NotificationService implements INotificationService {
     prepareRound = (data: IRound) => {
         toastr.success('Round Ready')
         const round = new Round(data)
+        this.stateService.session.CurrentRound = round
+    }
+
+    startCountdown = (data: IRound) => {
+        toastr.success('Countdown started.')
+        const round = new Round(data)
+
+        if (this.stateService.session.CurrentRound.Id != round.Id){
+            throw "Round mismatch."
+        }
+        
         this.stateService.session.CurrentRound = round
     }
 }

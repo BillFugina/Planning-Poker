@@ -22,16 +22,24 @@ export class Master {
         return this.session.CurrentRound.State == RoundState.Pending
     }
 
+    get inRound() {
+        return this.session.CurrentRound.State == RoundState.Pending || this.session.CurrentRound.State == RoundState.Started
+    }
+
     prepareRound(){
-        var roundId = this.session.prepareRound(this.session.Id);
+        var roundId = this.session.prepareRound(this.session.Id)
+    }
+
+    startCountdown(){
+        this.session.startCountdown(this.session.Id, this.session.CurrentRound.Id)
     }
 
     endRound(){
-        this.session.endRound(this.session.Id, this.session.CurrentRound.Id);
+        this.session.endRound(this.session.Id, this.session.CurrentRound.Id)
     }
 
     participantVote(participant: IParticipant){
-        var vote = this.session.CurrentRound.Votes.find(v => v.Participant.Id == participant.Id);
+        var vote = this.session.CurrentRound.Votes.find(v => v.Participant.Id == participant.Id)
         var result = vote ? vote.Value : '-'
         return result
     }
