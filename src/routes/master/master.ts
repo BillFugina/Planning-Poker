@@ -22,6 +22,10 @@ export class Master {
         return this.session.CurrentRound.State == RoundState.Pending
     }
 
+    get enableEnd() {
+        return this.session.CurrentRound.State == RoundState.Pending || this.session.CurrentRound.State == RoundState.Started
+    }
+
     get inRound() {
         return this.session.CurrentRound.State == RoundState.Pending || this.session.CurrentRound.State == RoundState.Started
     }

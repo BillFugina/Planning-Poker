@@ -9,11 +9,15 @@
                 <h3>Controls</h3>
                 <button type="button" class="btn btn-warning" click.delegate="prepareRound()" disabled.bind="!enablePrepare">
                     <i class="fa fa-play" aria-hidden="true"></i>
-                    Prepare Round
+                    Ready
                 </button>
                 <button type="button" class="btn btn-success" click.delegate="startCountdown()" disabled.bind="!enableStart">
                     <i class="fa fa-flag-checkered" aria-hidden="true"></i>
                     Start
+                </button>
+                <button type="button" class="btn btn-danger" click.delegate="endRound()" disabled.bind="!enableEnd">
+                    <i class="fa fa-stop" aria-hidden="true"></i>
+                    Stop
                 </button>
                 <div show.bind="session.isInActiveRound">Time remaining: ${session.timeRemaining}</div>
             </div>
