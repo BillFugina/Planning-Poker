@@ -2,19 +2,21 @@ import { IApiService, INotificationService, IStateService } from 'services/plann
 import { DI } from 'dependency-injection'
 import { ISessionService, ISimpleService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
-import { Round, IParticipant, ISession, ISessionId, RoundState, IGuid } from 'model'
+import { Round, IParticipant, ISession, ISessionId, RoundState, IGuid, ICard } from 'model'
 import { ILocalStorageService } from "services/storage"
 import * as toastr from 'toastr'
 import * as moment from 'moment'
 
 @inject('ILocalStorageService', 'IApiService', 'INotificationService', 'IStateService')
 export class SessionService implements ISessionService {
+
     constructor(
         private localStorageService: ILocalStorageService,
         private apiService: IApiService,
         private notificationService: INotificationService,
         private stateService: IStateService
     ) {
+        notificationService.subscribeRoundChange(this.roundChanged)
     }
     get Id(): IGuid { return this.stateService.session.Id }
     get Name(): string { return this.stateService.session.Name }
@@ -27,8 +29,42 @@ export class SessionService implements ISessionService {
     }
 
     Rounds: Round[] = [];
+    Cards: ICard[];
     isInActiveRound: boolean
     timeRemaining: number
+
+    roundChanged = (round: Round) => {
+        if (round.Id == this.stateService.session.CurrentRound.Id) {
+            const round = this.stateService.session.CurrentRound;
+            switch (round.State) {
+                case RoundState.Complete:
+                    this.roundClosed()
+                    break;
+                case RoundState.Started:
+                    this.roundStarted()
+                    break;
+            }
+        }
+    }
+
+    private roundClosed = () => {
+        const round = this.stateService.session.CurrentRound
+
+        if (!this.Rounds.some(x => x.Id == round.Id)) {
+            toastr.error(`Round Over`, 'Round Closed', { closeButton: true, progressBar: true })
+            this.stateService.session.CurrentRound.State = RoundState.Complete
+            this.Rounds.push(this.CurrentRound)
+            this.Rounds.sort((a, b) => {
+                return b.Id - a.Id
+            })
+            this.updateRound()
+        }
+    }
+
+    private roundStarted = () => {
+        toastr.warning(`Countdown Started`, 'Round Ending', { closeButton: true, progressBar: true })
+        this.updateRound()
+    }
 
     updateRound = () => {
         if (this.CurrentRound.State == RoundState.Started) {
@@ -146,9 +182,6 @@ export class SessionService implements ISessionService {
     async startCountdown(sessionId: string, roundId: number): Promise<Round> {
         try {
             var result = await this.apiService.StartCountdown(sessionId, roundId)
-            toastr.warning(`Countdown Started`, 'Round Ending', { closeButton: true, progressBar: true })
-            this.stateService.session.CurrentRound = result
-            this.updateRound()
             return result
         }
         catch (error) {
@@ -160,13 +193,6 @@ export class SessionService implements ISessionService {
     async endRound(sessionId: IGuid, roundId: number): Promise<void> {
         try {
             var result = await this.apiService.EndRound(sessionId, roundId)
-            toastr.error(`Round Over`, 'Round Closed', { closeButton: true, progressBar: true })
-            this.stateService.session.CurrentRound.State = RoundState.Complete
-            this.Rounds.push(this.CurrentRound)
-            this.Rounds.sort((a, b) => {
-                return b.Id - a.Id
-            })
-            this.updateRound()
         }
         catch (error) {
             toastr.error(`Error ending round.`)

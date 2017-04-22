@@ -32,6 +32,7 @@ export interface ISession {
     Name: string
     Master: IParticipant
     Participants: IParticipant[]
+    Cards: ICard[]
     CurrentRound: Round
 }
 
@@ -90,5 +91,11 @@ export interface IVote {
 
 export interface IVoteBallot { 
     ParticipantName: string
+    Value: number
+}
+
+
+export interface ICard { 
+    Display: string
     Value: number
 }

@@ -1,3 +1,4 @@
+import { Observable, EventHandler, Subscription, SubscriptionToken } from 'services/util/observable'
 import { ISession, ISessionId, Round, IGuid } from 'model';
 export interface IApiService {
     StartSession(sessionName: string, masterName: string): Promise<ISession>
@@ -31,6 +32,8 @@ export interface INotificationService {
     joinSession(sessionName: string)
     registerVote (data)
     registerParticipant (data)
+    subscribeRoundChange(handler: EventHandler<Round>)
+    unsubscribeRoundChange(token : SubscriptionToken<Round>)
 }
 
 export interface IStateService {

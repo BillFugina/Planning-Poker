@@ -10,6 +10,7 @@ const blankSession: ISession = {
         Role: 0
     },
     Participants: [],
+    Cards: [],
     Name: ''
 }
 
