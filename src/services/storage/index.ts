@@ -11,6 +11,6 @@ export type ILocalStorageKey = 'SessionID' | 'Participant'
 export interface ILocalStorageService extends IStorageService<ILocalStorageKey> {}
 
 // Enumerate Session Storage Keys
-export type ISessionStorageKey = undefined
+export type ISessionStorageKey = 'SessionID' | 'Participant'
 
 export interface ISessionStorageService extends IStorageService<ISessionStorageKey> {}

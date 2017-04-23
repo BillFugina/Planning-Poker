@@ -29,11 +29,9 @@ export class ApiService implements IApiService {
             SessionName: sessionName
         }
 
-        var body = await json(sessionApplication)
-
         var response = await this.client.fetch(`sessions`, {
             method: 'post',
-            body: body
+            body: json(sessionApplication)
         })
 
         var session: ISession = await response.json()

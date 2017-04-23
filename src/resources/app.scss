@@ -1,3 +1,30 @@
+.card {
+  background-color: gainsboro;
+  width: 100px;
+  height: 150px;
+  margin: 10px;
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  border-radius: 10px;
+
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+
+  .display {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 8em;
+    align-self: center;
+    justify-self: center;
+  }
+}
+
+.panel {
+  padding: 2px 10px;
+}
+
 button {
   i {
     margin-right: 10px;
@@ -10,7 +37,6 @@ button {
   grid-template-rows: 1fr 10fr;
 
   .header {
-    background-color: pink;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-flow: row;
@@ -37,7 +63,6 @@ button {
     grid-row: 2;
     grid-column: 2;
 
-    background-color: orange;
     display: grid;
     grid-template-rows: 20px 200px;
 
@@ -81,20 +106,29 @@ button {
           top: -3px;
           left: -3px;
         }
+
+        &.chosen {
+          background-color: lightgreen;
+          border-width: 2px;
+        }
       }
 
     }
   }
 }
 
-.session {
+.master {
   display: grid;
   grid-template-columns: 150px auto 150px;
-  grid-template-rows: 100px 200px;
+  grid-template-rows: 100px 250px auto;
 
   .header {
     grid-row: 1;
     grid-column: 2;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-flow: row;
   }
 
   .left {
@@ -109,14 +143,55 @@ button {
     grid-column: 3;
   }
 
+  .vote {
+    grid-column: 3;
+  }
+
   .info {
     grid-row: 2;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-gap: 10px;
 
-    .panel {
-      padding: 2px 10px;
+    .title {
+      grid-row: 1;
+    }
+
+    .content {
+      grid-row: 2;
+      display: grid;
+      justify-items: center;
+    }
+
+    .current {
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: 1fr auto;
+    }
+
+  }
+
+  .participants {
+    grid-row: 3;
+    grid-column: 2;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    .vote {
+      display: grid;
+      grid-template-rows: auto 20px;
+      justify-items: center;
+
+      .resonse {
+        grid-row: 1;
+      }
+
+      .participant {
+        grid-row: 2;
+      }
+
     }
   }
 }
@@ -127,7 +202,48 @@ button {
 
   li {
     display: grid;
-    grid-template-columns: 40px 100px 40px;
+    grid-template-columns: 40px auto 40px;
     border-bottom: 1px solid #ccc;
   }
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+  perspective: 1000px;
+}
+/* flip the pane when hovered */
+.flip-container.reveal .flipper {
+  transform: rotateY(180deg);
+}
+
+/* flip speed goes here */
+.flipper {
+  transition: .6s;
+  transform-style: preserve-3d;
+
+  position: relative;
+}
+
+/* hide back of pane during swap */
+.back,
+.front {
+  grid-row: 1;
+  grid-column: 1;
+  backface-visibility: hidden;
+
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+}
+
+/* front pane, placed above back */
+.front {
+  z-index: 2;
+  /* for firefox 31 */
+  transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+  transform: rotateY(180deg);
 }

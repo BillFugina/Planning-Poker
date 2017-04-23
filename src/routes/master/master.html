@@ -1,7 +1,12 @@
 <template>
-    <div class="session">
+    <div class="master">
         <div class="header panel panel-default">
-            <h1>Session: ${session.Name}</h1>
+            <div>
+                <h1>Session: ${session.Name}</h1>
+            </div>
+            <div>
+                <h1 show.bind="inRound">Round: ${session.CurrentRound.Id}</h1>
+            </div>
         </div>
         <div class="info center">
             <div class="panel panel-default">
@@ -26,23 +31,26 @@
                     <li repeat.for="participant of session.Participants">
                         <div class="icon"><i class="fa fa-lg ${participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
                         <div class="name">${participant.Name}</div>
+                        <div class="vote"><i show.bind="participant.Voted" class="fa fa-check"></i></div>
                     </li>
                 </ul>
             </div>
-            <div class="panel panel-default">
-                <h3>Current Round<span if.bind="inRound && session.CurrentRound.Id > 0">: ${session.CurrentRound.Id}</span></h3>
-                <ul class="list">
-                    <li repeat.for="vote of session.CurrentRound.Votes">
-                        <div class="icon"><i class="fa fa-lg ${vote.Participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
-                        <div class="name">${vote.Participant.Name}</div>
-                        <div class="vote"><i if.bind="inRound" class="fa fa-check"></i> <span if.bind="!inRound">${vote.Value}</span></div>
-                    </li>
-                    <li if.bind="!inRound">
-                        <div></div>
-                        <div>Average: </div>
-                        <div>${session.CurrentAverage}</div>
-                    </li>
-                </ul>
+            <div class="current panel panel-default">
+                <div class="title">
+                    <h3>Current Round<span if.bind="inRound && session.CurrentRound.Id > 0">: ${session.CurrentRound.Id}</span></h3>
+                </div>
+                <div class="content">
+                    <div class="response flip-container" class.bind="showAverage ? 'reveal' : ''">
+                        <div class="flipper card">
+                            <div class="front">
+                                <div class="display">?</div>
+                            </div>
+                            <div class="back">
+                                <div class="display">${roundAverage}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="panel panel-default">
                 <h3>Rounds</h3>
@@ -52,6 +60,24 @@
                         <div>${round.Average}</div>
                     </li>
                 </ul>
+            </div>
+        </div>
+        <div class="participants panel panel-default" show.bind="showCards">
+            <div repeat.for="vote of session.CurrentRound.Votes" class="vote">
+                <div class="response flip-container" class.bind="showVotes ? 'reveal' : ''">
+                    <div class="flipper card">
+                        <div class="front">
+                            <div class="display">?</div>
+                        </div>
+                        <div class="back">
+                            <div class="display">${vote.Value}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div>${vote.Participant.Name}</div>
+                </div>
+
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 import { Observable, EventHandler, Subscription, SubscriptionToken } from 'services/util/observable'
-import { ISession, ISessionId, Round, IGuid, IParticipant } from 'model';
+import { ISession, ISessionId, ICard, Round, IGuid, IParticipant } from 'model';
 export interface IApiService {
     StartSession(sessionName: string, masterName: string): Promise<ISession>
     GetSession(sessionId: IGuid): Promise<ISession>
@@ -41,6 +41,11 @@ export interface INotificationService {
 export interface IStateService {
     session : ISession
     participant: IParticipant
+    chosen: ICard
+    roundAverage: number
+
+    resetCards()
+     cardChosen(value: number): boolean
     setSession(session: ISession)
     setParticipant(partipant: IParticipant)
     addParticipant(participant: IParticipant)

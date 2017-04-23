@@ -1,17 +1,22 @@
 import { NavigationInstruction, RouteConfig } from 'aurelia-router'
 import { ISession, IParticipant, RoundState } from 'model'
-import { ISessionService, IApiService } from 'services/planning-poker'
+import { ISessionService, IApiService, IStateService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
 import * as toastr from 'toastr'
 
-@inject(DI.ISessionService)
+@inject(DI.ISessionService, DI.IStateService)
 export class Master {
     master: string
 
     constructor(
-        private session: ISessionService
+        private session: ISessionService,
+        private state: IStateService
     ) {
+    }
+
+    get roundAverage() {
+        return this.state.roundAverage
     }
 
     get enablePrepare() {
@@ -28,6 +33,20 @@ export class Master {
 
     get inRound() {
         return this.session.CurrentRound.State == RoundState.Pending || this.session.CurrentRound.State == RoundState.Started
+    }
+
+    get showAverage(): boolean {
+        return this.session.CurrentRound.State == RoundState.Complete
+    }
+
+    get showVotes(): boolean {
+        return this.session.CurrentRound.State == RoundState.Complete
+    }
+
+    get showCards(): boolean {
+        return this.session.CurrentRound.State == RoundState.Pending 
+        || this.session.CurrentRound.State == RoundState.Started 
+        || this.session.CurrentRound.State == RoundState.Complete
     }
 
     prepareRound(){

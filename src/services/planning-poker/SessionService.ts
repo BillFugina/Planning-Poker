@@ -3,14 +3,14 @@ import { DI } from 'dependency-injection'
 import { ISessionService, ISimpleService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { Round, IParticipant, ISession, ISessionId, RoundState, IGuid, ICard } from 'model'
-import { ILocalStorageService } from "services/storage"
+import { ILocalStorageService, ISessionStorageService } from "services/storage"
 import * as toastr from 'toastr'
 import * as moment from 'moment'
 
-@inject('ILocalStorageService', 'IApiService', 'INotificationService', 'IStateService')
+@inject('ISessionStorageService', 'IApiService', 'INotificationService', 'IStateService')
 export class SessionService implements ISessionService {
     constructor(
-        private localStorageService: ILocalStorageService,
+        private localStorageService: ISessionStorageService,
         private apiService: IApiService,
         private notificationService: INotificationService,
         private stateService: IStateService
@@ -142,6 +142,7 @@ export class SessionService implements ISessionService {
             toastr.info(`Session: ${result.Name}`, 'Session Started', { closeButton: true, progressBar: true })
             this.updateSession(result)
             this.stateService.setParticipant(result.Master)
+            this.putParticipantIntoStorage(result.Master)
             this.notificationService.joinSession(session)
             return result
         }
@@ -194,6 +195,7 @@ export class SessionService implements ISessionService {
             this.stateService.setParticipant(participant)
             this.putParticipantIntoStorage(participant)
             this.updateSession(result)
+            this.notificationService.joinSession(result.Name)
             return result
         }
         catch (error) {

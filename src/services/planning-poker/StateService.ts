@@ -1,4 +1,4 @@
-import { IParticipant, Round, ISession } from 'model'
+import { IParticipant, Round, ISession, ICard } from 'model'
 import { IStateService } from "services/planning-poker";
 
 const blankSession: ISession = {
@@ -7,7 +7,8 @@ const blankSession: ISession = {
     Master: {
         Id: '',
         Name: '',
-        Role: 0
+        Role: 0,
+        Voted: false
     },
     Participants: [],
     Cards: [],
@@ -17,9 +18,26 @@ const blankSession: ISession = {
 export class StateService implements IStateService {
     session: ISession
     participant: IParticipant
+    chosen: ICard
 
     constructor() {
         this.session = blankSession;
+    }
+
+    get roundAverage() : number {
+        let result = 0
+        if (this.session.CurrentRound){
+            let average = this.session.CurrentRound.Average
+            let smallestDiff = 1000
+            this.session.Cards.map(c => {
+                let diff = Math.abs(c.Value - average)
+                if (diff < smallestDiff){
+                    result = c.Value
+                    smallestDiff = diff
+                }
+            })
+        }
+        return result
     }
 
     setSession(newSession: ISession) {
@@ -37,7 +55,15 @@ export class StateService implements IStateService {
             this.session.Participants.push(participant);
         }
     }
+    resetCards() {
+        this.session.Cards.map(c => {
+            c.Chosen = this.cardChosen(c.Value)
+        });
+    }
 
-
-
+    cardChosen(value: number): boolean {
+        const participantVote = this.session.CurrentRound.Votes.find(v => v.Participant.Id == this.participant.Id);
+        const result = participantVote && value === participantVote.Value
+        return result;
+    }
 }

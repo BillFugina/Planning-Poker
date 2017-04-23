@@ -1,6 +1,6 @@
 import { NavigationInstruction, RouteConfig } from 'aurelia-router'
-import { ISession, IParticipant, RoundState } from 'model'
-import { ISessionService, IApiService, IStateService } from 'services/planning-poker'
+import { ISession, IParticipant, RoundState, ICard } from 'model'
+import { ISessionService, IApiService, IStateService, INotificationService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
 import * as toastr from 'toastr'
@@ -14,9 +14,19 @@ export class Participant {
     ) {
 
     }
+    attached() {
+        this.state.resetCards()
+    }
 
+    get chosen() {
+        return this.state.chosen
+    }
 
-    get round(){
+    set chosen(value: ICard) {
+        this.state.chosen = value
+    }
+
+    get round() {
         return this.session.CurrentRound
     }
     get inRound() {
@@ -27,8 +37,20 @@ export class Participant {
         return this.session.CurrentRound.State == RoundState.Started
     }
 
-    cardClick(value: number){
-        this.session.vote(this.session.Name, this.session.CurrentRound.Id, this.state.participant, value)
+    cardClick(card: ICard) {
+        if (this.chosen === card) {
+            card.Chosen = false;
+            this.chosen = null;
+            this.session.vote(this.session.Name, this.session.CurrentRound.Id, this.state.participant, -1)
+        }
+        else {
+            if (this.chosen) {
+                this.chosen.Chosen = false;
+            }
+            card.Chosen = true;
+            this.chosen = card;
+            this.session.vote(this.session.Name, this.session.CurrentRound.Id, this.state.participant, card.Value)
+        }
     }
 
 }
