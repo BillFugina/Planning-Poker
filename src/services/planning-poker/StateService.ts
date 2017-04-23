@@ -16,8 +16,9 @@ const blankSession: ISession = {
 
 export class StateService implements IStateService {
     session: ISession
+    participant: IParticipant
 
-    constructor(){
+    constructor() {
         this.session = blankSession;
     }
 
@@ -25,4 +26,18 @@ export class StateService implements IStateService {
         newSession.CurrentRound = new Round(newSession.CurrentRound)
         this.session = newSession
     }
+
+    setParticipant(participant: IParticipant) {
+        this.participant = participant
+    }
+
+    addParticipant(participant: IParticipant) {
+        var existingParticipant = this.session.Participants.some(p => p.Id == participant.Id || p.Name == participant.Name);
+        if (!existingParticipant) {
+            this.session.Participants.push(participant);
+        }
+    }
+
+
+
 }

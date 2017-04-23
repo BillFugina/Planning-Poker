@@ -1,15 +1,16 @@
 import { NavigationInstruction, RouteConfig } from 'aurelia-router'
 import { ISession, IParticipant, RoundState } from 'model'
-import { ISessionService, IApiService } from 'services/planning-poker'
+import { ISessionService, IApiService, IStateService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
 import * as toastr from 'toastr'
 
-@inject(DI.ISessionService)
+@inject(DI.ISessionService, DI.IStateService)
 export class Participant {
 
     constructor(
-        private session: ISessionService
+        private session: ISessionService,
+        private state: IStateService
     ) {
 
     }
@@ -26,5 +27,8 @@ export class Participant {
         return this.session.CurrentRound.State == RoundState.Started
     }
 
+    cardClick(value: number){
+        this.session.vote(this.session.Name, this.session.CurrentRound.Id, this.state.participant, value)
+    }
 
 }

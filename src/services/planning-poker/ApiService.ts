@@ -2,7 +2,7 @@ import { DI } from 'dependency-injection'
 import { ISessionService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { IApiService } from 'services/planning-poker'
-import { ISession, ISessionApplication, IParticipantApplication, Round, IGuid, IParticipant, ParticipantRole } from 'model'
+import { ISession, ISessionApplication, IParticipantApplication, Round, IGuid, IParticipant, ParticipantRole, IVote, IVoteBallot } from 'model'
 import { HttpClient, json } from 'aurelia-fetch-client'
 
 export class ApiService implements IApiService {
@@ -116,6 +116,25 @@ export class ApiService implements IApiService {
         try {
             var response = await this.client.fetch(`sessions/${sessionId}/rounds/${roundId}`, {
                 method: 'delete'
+            })
+        }
+        catch (error){
+            return undefined
+        }
+    }
+
+    async Vote(sessionName: string, roundId: number,  participant: IParticipant, value: number ): Promise<void> {
+        const voteBallot : IVoteBallot = {
+            Value: value,
+            ParticipantName: participant.Name
+        }
+
+        var body = json(voteBallot);
+
+        try {
+            var response = await this.client.fetch(`sessions/${sessionName}/rounds/${roundId}/votes`, {
+                method: 'post',
+                body: body
             })
         }
         catch (error){

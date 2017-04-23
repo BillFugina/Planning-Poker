@@ -9,7 +9,6 @@ import * as moment from 'moment'
 
 @inject('ILocalStorageService', 'IApiService', 'INotificationService', 'IStateService')
 export class SessionService implements ISessionService {
-
     constructor(
         private localStorageService: ILocalStorageService,
         private apiService: IApiService,
@@ -24,12 +23,13 @@ export class SessionService implements ISessionService {
     get Participants(): IParticipant[] { return this.stateService.session.Participants }
     get CurrentRound(): Round { return this.stateService.session.CurrentRound }
 
+    get Cards(): ICard[] { return this.stateService.session.Cards }
+
     get CurrentAverage(): number {
         return this.stateService.session.CurrentRound.Average
     }
 
     Rounds: Round[] = [];
-    Cards: ICard[];
     isInActiveRound: boolean
     timeRemaining: number
 
@@ -106,9 +106,27 @@ export class SessionService implements ISessionService {
                     toastr.warning(`Could not continue last session.`)
                     this.removeSessionIdFromStorage();
                 }
+
+                try {
+                    var participant = this.getParticipantFromStorage()
+                    if (!participant) {
+                        throw 'Participant not in local storage.'
+                    }
+                    this.stateService.setParticipant(participant)
+                }
+                catch (error) {
+                    toastr.warning(`Could not restore participant.`)
+                    this.removeParticipantFromStorage();
+                }
+
             }
         }
-        var result = !!(this.stateService.session && this.stateService.session.Id != '')
+        var result = !!(
+            this.stateService.session
+            && this.stateService.session.Id != ''
+            && this.stateService.participant
+            && this.stateService.participant.Id
+        )
 
         return result;
     }
@@ -123,6 +141,7 @@ export class SessionService implements ISessionService {
             var result = await this.apiService.StartSession(session, master)
             toastr.info(`Session: ${result.Name}`, 'Session Started', { closeButton: true, progressBar: true })
             this.updateSession(result)
+            this.stateService.setParticipant(result.Master)
             this.notificationService.joinSession(session)
             return result
         }
@@ -155,15 +174,30 @@ export class SessionService implements ISessionService {
         this.localStorageService.remove('SessionID');
     }
 
+    private getParticipantFromStorage(): IParticipant {
+        return this.localStorageService.get<IParticipant>('Participant')
+    }
+
+    private putParticipantIntoStorage(sessionId: IParticipant) {
+        this.localStorageService.set('Participant', this.stateService.participant)
+    }
+
+    private removeParticipantFromStorage() {
+        this.localStorageService.remove('Participant');
+    }
+
     async joinSession(sessionName: string, participantName: string): Promise<ISession> {
         try {
             var result = await this.apiService.JoinSession(sessionName, participantName)
             toastr.info(`Session: ${result.Name}`, 'Joined Session', { closeButton: true, progressBar: true })
+            let participant = result.Participants.find(p => p.Name == participantName)
+            this.stateService.setParticipant(participant)
+            this.putParticipantIntoStorage(participant)
             this.updateSession(result)
             return result
         }
         catch (error) {
-            toastr.error(`Error getting session.`)
+            toastr.error(`Error getting session: ${error}`)
         }
     }
     async prepareRound(sessionId: IGuid): Promise<Round> {
@@ -175,7 +209,7 @@ export class SessionService implements ISessionService {
             return result
         }
         catch (error) {
-            toastr.error(`Error preparing round.`)
+            toastr.error(`Error preparing round: ${error}`)
         }
     }
 
@@ -185,7 +219,7 @@ export class SessionService implements ISessionService {
             return result
         }
         catch (error) {
-            toastr.error(`Error ending round.`)
+            toastr.error(`Error ending round: ${error}`)
         }
     }
 
@@ -195,7 +229,16 @@ export class SessionService implements ISessionService {
             var result = await this.apiService.EndRound(sessionId, roundId)
         }
         catch (error) {
-            toastr.error(`Error ending round.`)
+            toastr.error(`Error ending round: ${error}`)
+        }
+    }
+
+    async vote(sessionName: IGuid, roundId: number, participant: IParticipant, value: number): Promise<void> {
+        try {
+            var result = await this.apiService.Vote(sessionName, roundId, participant, value)
+        }
+        catch (error) {
+            toastr.error(`Error submitting vote: ${error}`)
         }
     }
 

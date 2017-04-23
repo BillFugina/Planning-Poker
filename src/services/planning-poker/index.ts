@@ -1,5 +1,5 @@
 import { Observable, EventHandler, Subscription, SubscriptionToken } from 'services/util/observable'
-import { ISession, ISessionId, Round, IGuid } from 'model';
+import { ISession, ISessionId, Round, IGuid, IParticipant } from 'model';
 export interface IApiService {
     StartSession(sessionName: string, masterName: string): Promise<ISession>
     GetSession(sessionId: IGuid): Promise<ISession>
@@ -8,6 +8,7 @@ export interface IApiService {
     PrepareRound(sessionId: IGuid): Promise<Round>
     EndRound(sessionId: IGuid, roundId : number): Promise<void>
     StartCountdown(sessionId: IGuid, roundId : number): Promise<Round>
+    Vote(sessionName: string, roundId: number,  participant: IParticipant, value: number ): Promise<void>
 }
 
 
@@ -20,6 +21,7 @@ export interface ISessionService extends ISession {
     prepareRound(sessionId: IGuid): Promise<Round>
     startCountdown(sessionId: IGuid, roundId : number) : Promise<Round>
     endRound(sessionId: IGuid, roundId : number): Promise<void>
+    vote(sessionName: IGuid, roundId: number,  participant: IParticipant, value: number ): Promise<void>
     isInActiveRound : boolean
     timeRemaining : number
 }
@@ -38,5 +40,8 @@ export interface INotificationService {
 
 export interface IStateService {
     session : ISession
+    participant: IParticipant
     setSession(session: ISession)
+    setParticipant(partipant: IParticipant)
+    addParticipant(participant: IParticipant)
 }
