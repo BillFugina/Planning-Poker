@@ -74,4 +74,8 @@ export class Master {
         var result = vote ? vote.Value : '-'
         return result
     }
+
+    endSession(){
+        this.session.endSession(this.state.session.Id);
+    }
 }

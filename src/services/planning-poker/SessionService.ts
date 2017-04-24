@@ -3,14 +3,14 @@ import { DI } from 'dependency-injection'
 import { ISessionService, ISimpleService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { Round, IParticipant, ISession, ISessionId, RoundState, IGuid, ICard } from 'model'
-import { ILocalStorageService, ISessionStorageService } from "services/storage"
+import { ISessionStorageService } from "services/storage"
 import * as toastr from 'toastr'
 import * as moment from 'moment'
 
-@inject('ISessionStorageService', 'IApiService', 'INotificationService', 'IStateService')
+@inject(DI.ISessionStorageService, DI.IApiService, DI.INotificationService, DI.IStateService)
 export class SessionService implements ISessionService {
     constructor(
-        private localStorageService: ISessionStorageService,
+        private SessionStorageService: ISessionStorageService,
         private apiService: IApiService,
         private notificationService: INotificationService,
         private stateService: IStateService
@@ -67,7 +67,7 @@ export class SessionService implements ISessionService {
     }
 
     public async refresh(): Promise<boolean> {
-        if (this.stateService.session.Id === '') {
+        if (this.stateService.session == null || this.stateService.session.Id === '') {
             var id = this.getSessionIdFromStorage();
             if (id) {
                 try {
@@ -144,27 +144,27 @@ export class SessionService implements ISessionService {
     }
 
     private getSessionIdFromStorage(): IGuid {
-        return this.localStorageService.get<IGuid>('SessionID')
+        return this.SessionStorageService.get<IGuid>('SessionID')
     }
 
     private putSessionIdIntoStorage(sessionId: IGuid) {
-        this.localStorageService.set('SessionID', this.stateService.session.Id)
+        this.SessionStorageService.set('SessionID', this.stateService.session.Id)
     }
 
     private removeSessionIdFromStorage() {
-        this.localStorageService.remove('SessionID');
+        this.SessionStorageService.remove('SessionID');
     }
 
     private getParticipantFromStorage(): IParticipant {
-        return this.localStorageService.get<IParticipant>('Participant')
+        return this.SessionStorageService.get<IParticipant>('Participant')
     }
 
     private putParticipantIntoStorage(sessionId: IParticipant) {
-        this.localStorageService.set('Participant', this.stateService.participant)
+        this.SessionStorageService.set('Participant', this.stateService.participant)
     }
 
     private removeParticipantFromStorage() {
-        this.localStorageService.remove('Participant');
+        this.SessionStorageService.remove('Participant');
     }
 
     async joinSession(sessionName: string, participantName: string): Promise<ISession> {
@@ -218,6 +218,15 @@ export class SessionService implements ISessionService {
         }
         catch (error) {
             toastr.error(`Error submitting vote: ${error}`)
+        }
+    }
+
+    async endSession(sessionId: IGuid): Promise<void>{
+        try {
+            var result = await this.apiService.EndSession(sessionId)
+        }
+        catch (error) {
+            toastr.error(`Error ending session: ${error}`)
         }
     }
 

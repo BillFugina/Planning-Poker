@@ -140,4 +140,15 @@ export class ApiService implements IApiService {
         }
     }
 
+    async EndSession(sessionId: string): Promise<void> {
+        try {
+            var response = await this.client.fetch(`sessions/${sessionId}`, {
+                method: 'delete'
+            })
+        }
+        catch (error){
+            return undefined
+        }
+    }
+
 }

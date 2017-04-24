@@ -1,11 +1,14 @@
 import { inject } from 'aurelia-framework'
+import { Router } from 'aurelia-router'
 import * as toastr from 'toastr';
 import * as pusher from 'pusher-js'
 import { INotificationService, IStateService } from "services/planning-poker";
+import { ISessionStorageService } from 'services/storage'
 import { IParticipant, IVote, IRound, Round, RoundState, IGuid } from "model"
 import { Observable, EventHandler, Subscription, SubscriptionToken } from 'services/util/observable'
+import { DI } from 'dependency-injection'
 
-@inject('IStateService')
+@inject(Router, DI.IStateService, DI.ISessionStorageService)
 export class NotificationService implements INotificationService {
 
     private _pusher: pusher.Pusher
@@ -13,7 +16,11 @@ export class NotificationService implements INotificationService {
 
     private _observableRound = new Observable<Round>();
 
-    constructor(private stateService: IStateService) {
+    constructor(
+        private router: Router,
+        private stateService: IStateService,
+        private SessionStorage: ISessionStorageService
+    ) {
         this._pusher = new pusher('dbb03672c21dbc11baf5')
     }
 
@@ -36,6 +43,7 @@ export class NotificationService implements INotificationService {
         this._channel.bind('PrepareRound', this.prepareRound)
         this._channel.bind('StartCountdown', this.startCountdown)
         this._channel.bind('EndRound', this.endRound)
+        this._channel.bind('EndSession', this.endSession)
         this.resetParticipantVotes();
     }
 
@@ -83,6 +91,14 @@ export class NotificationService implements INotificationService {
         round.State = RoundState.Started
         this.stateService.session.CurrentRound = round
         this.onRoundChange(this.stateService.session.CurrentRound)
+    }
+
+    endSession = (data: string) => {
+        this.leaveSession()
+        this.stateService.clear()
+        this.SessionStorage.remove("SessionID")
+        this.SessionStorage.remove("Participant")
+        this.router.navigateToRoute('home')
     }
 
     participantVoted(participantId: IGuid, value: boolean) {

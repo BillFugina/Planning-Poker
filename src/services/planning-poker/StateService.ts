@@ -11,7 +11,13 @@ export class StateService implements IStateService {
     constructor() {
         this.session = new Session();
     }
-
+    clear(){
+        this.session = null
+        this.participant = null
+        this.chosen = null
+        this.timeRemaining = 0
+        this.isInActiveRound = false;
+    }
     get roundAverage(): number {
         return this.calcRoundAverage(this.session.CurrentRound.Average)
     }

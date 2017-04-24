@@ -9,20 +9,30 @@
             </div>
         </div>
         <div class="info center">
-            <div class="panel panel-default">
-                <h3>Controls</h3>
-                <button type="button" class="btn btn-warning" click.delegate="prepareRound()" disabled.bind="!enablePrepare">
-                    <i class="fa fa-play" aria-hidden="true"></i>
-                    Ready
-                </button>
-                <button type="button" class="btn btn-success" click.delegate="startCountdown()" disabled.bind="!enableStart">
-                    <i class="fa fa-flag-checkered" aria-hidden="true"></i>
-                    Start
-                </button>
-                <button type="button" class="btn btn-danger" click.delegate="endRound()" disabled.bind="!enableEnd">
-                    <i class="fa fa-stop" aria-hidden="true"></i>
-                    Stop
-                </button>
+            <div class="controls panel panel-default">
+                <div>
+                    <h3>Controls</h3>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" click.delegate="prepareRound()" disabled.bind="!enablePrepare">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        New Round
+                    </button>
+                    <button type="button" class="btn btn-primary" click.delegate="startCountdown()" disabled.bind="!enableStart">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        Start Timer
+                    </button>
+                    <button type="button" class="btn btn-primary" click.delegate="endRound()" disabled.bind="!enableEnd">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                        Reveal
+                    </button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-danger" click.delegate="endSession()">
+                        <i class="fa fa-stop" aria-hidden="true"></i>
+                        End Session
+                    </button>
+                </div>
             </div>
             <div class="panel panel-default">
                 <h3>Participants</h3>
@@ -62,7 +72,7 @@
                             <div>
                                 <span show.bind="$first && !showAverage">?</span>
                                 <span hide.bind="$first && !showAverage">${state.getCardDisplay(round.Average)}</span>
-                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>

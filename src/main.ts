@@ -1,4 +1,5 @@
-import { DI, Singletons } from 'dependency-injection'
+import { DI} from 'dependency-injection'
+import { Singletons } from 'singletons'
 import {Aurelia} from 'aurelia-framework'
 import environment from 'environment';
 

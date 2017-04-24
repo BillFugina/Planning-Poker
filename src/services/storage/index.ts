@@ -6,11 +6,11 @@ export interface IStorageService<TKey extends string> {
 }
 
 // Enumerate Local Storage Keys
-export type ILocalStorageKey = 'SessionID' | 'Participant'
-
-export interface ILocalStorageService extends IStorageService<ILocalStorageKey> {}
-
-// Enumerate Session Storage Keys
 export type ISessionStorageKey = 'SessionID' | 'Participant'
 
 export interface ISessionStorageService extends IStorageService<ISessionStorageKey> {}
+
+// Enumerate Session Storage Keys
+export type ILocalStorageKey = 'SessionID' | 'Participant'
+
+export interface ILocalStorageService extends IStorageService<ISessionStorageKey> {}
