@@ -13,12 +13,15 @@ export class StateService implements IStateService {
     }
 
     get roundAverage(): number {
+        return this.calcRoundAverage(this.session.CurrentRound.Average)
+    }
+
+    private calcRoundAverage(input: number): number {
         let result = 0
         if (this.session.CurrentRound) {
-            let average = this.session.CurrentRound.Average
             let smallestDiff = 1000
             this.session.Cards.map(c => {
-                let diff = Math.abs(c.Value - average)
+                let diff = Math.abs(c.Value - input)
                 if (diff < smallestDiff) {
                     result = c.Value
                     smallestDiff = diff
@@ -33,6 +36,12 @@ export class StateService implements IStateService {
         let card = this.session.Cards.find(c => c.Value == avg)
         let result = card ? card.Display : avg.toString()
         return result
+    }
+
+    getCardDisplay(value: number): string{
+        const cardValue = this.calcRoundAverage(value);
+        const card = this.session.Cards.find(c => c.Value == cardValue);
+        return card ? card.Display : cardValue.toString()
     }
 
     setSession(newSession: ISession) {

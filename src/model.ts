@@ -80,7 +80,6 @@ export class Session implements ISession {
         }
         this.Rounds.unshift(round);
     }
-
 }
 
 export interface ISession {

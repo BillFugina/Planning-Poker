@@ -61,14 +61,14 @@
                             <div>${round.Id}</div>
                             <div>
                                 <span show.bind="$first && !showAverage">?</span>
-                                <span hide.bind="$first && !showAverage">${round.Average}</span>
+                                <span hide.bind="$first && !showAverage">${state.getCardDisplay(round.Average)}</span>
                                 </div>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="participants panel panel-default" show.bind="showCards">
+        <div class="participants" show.bind="showCards">
             <div repeat.for="vote of state.session.CurrentRound.Votes" class="vote">
                 <div class="response flip-container" class.bind="showVotes ? 'reveal' : ''">
                     <div class="flipper card">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="participant">
-                    <div>${vote.Participant.Name}</div>
+                    <span class="name">${vote.Participant.Name}</span>
                 </div>
             </div>
         </div>

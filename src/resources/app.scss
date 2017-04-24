@@ -57,6 +57,10 @@ button {
   grid-template-columns: 20% 60% 20%;
   grid-template-rows: 1fr 10fr;
 
+  .name{
+    font-size: 18pt;
+  }
+
   .header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -141,7 +145,7 @@ button {
 .master {
   display: grid;
   grid-template-columns: 150px auto 150px;
-  grid-template-rows: 100px 250px auto;
+  grid-template-rows: 100px 250px 0;
 
   .header {
     grid-row: 1;
@@ -224,7 +228,7 @@ button {
 
     .vote {
       display: grid;
-      grid-template-rows: auto 20px;
+      grid-template-rows: 1fr 1fr;
       justify-items: center;
 
       .resonse {

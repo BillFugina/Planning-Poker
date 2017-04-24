@@ -51,4 +51,5 @@ export interface IStateService {
     setSession(session: ISession)
     setParticipant(partipant: IParticipant)
     addParticipant(participant: IParticipant)
+    getCardDisplay(value: number)
 }
