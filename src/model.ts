@@ -91,6 +91,7 @@ export interface IVote {
     Participant: IParticipant
     Value: number
     Show: boolean
+    Display: string
 }
 
 export interface IVoteBallot {

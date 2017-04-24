@@ -43,9 +43,11 @@ export interface IStateService {
     participant: IParticipant
     chosen: ICard
     roundAverage: number
+    roundAverageDisplay: string
 
     resetCards()
-     cardChosen(value: number): boolean
+    showVotes()
+    cardChosen(value: number): boolean
     setSession(session: ISession)
     setParticipant(partipant: IParticipant)
     addParticipant(participant: IParticipant)

@@ -46,6 +46,10 @@ export class NotificationService implements INotificationService {
 
     registerVote = (data: IVote) => {
         toastr.success(`Vote`)
+        let card = this.stateService.session.Cards.find(c => c.Value == data.Value)
+        if (card){
+            data.Display = card.Display
+        }
         this.stateService.session.CurrentRound.addVote(data)
         this.participantVoted(data.Participant.Id, this.stateService.session.CurrentRound.Votes.some(v => v.Participant.Id === data.Participant.Id));
     }
@@ -64,8 +68,8 @@ export class NotificationService implements INotificationService {
     endRound = (roundId: number) => {
         if (this.stateService.session.CurrentRound.Id == roundId) {
             this.stateService.session.CurrentRound.State = RoundState.Complete
+            this.stateService.showVotes()
             this.onRoundChange(this.stateService.session.CurrentRound)
-            this.showVotes()
         }
     }
 
@@ -94,9 +98,4 @@ export class NotificationService implements INotificationService {
         })
     }
 
-    showVotes() {
-        this.stateService.session.CurrentRound.Votes.map(v => {
-            v.Show = true
-        })
-    }
 }

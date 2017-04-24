@@ -16,7 +16,7 @@ export class Master {
     }
 
     get roundAverage() {
-        return this.state.roundAverage
+        return this.state.roundAverageDisplay
     }
 
     get enablePrepare() {

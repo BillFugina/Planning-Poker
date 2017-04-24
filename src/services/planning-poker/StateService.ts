@@ -1,4 +1,4 @@
-import { IParticipant, Round, ISession, ICard } from 'model'
+import { IParticipant, Round, ISession, ICard, IVote } from 'model'
 import { IStateService } from "services/planning-poker";
 
 const blankSession: ISession = {
@@ -24,14 +24,14 @@ export class StateService implements IStateService {
         this.session = blankSession;
     }
 
-    get roundAverage() : number {
+    get roundAverage(): number {
         let result = 0
-        if (this.session.CurrentRound){
+        if (this.session.CurrentRound) {
             let average = this.session.CurrentRound.Average
             let smallestDiff = 1000
             this.session.Cards.map(c => {
                 let diff = Math.abs(c.Value - average)
-                if (diff < smallestDiff){
+                if (diff < smallestDiff) {
                     result = c.Value
                     smallestDiff = diff
                 }
@@ -40,9 +40,17 @@ export class StateService implements IStateService {
         return result
     }
 
+    get roundAverageDisplay(): string {
+        let avg = this.roundAverage
+        let card = this.session.Cards.find(c => c.Value == avg)
+        let result = card ? card.Display : avg.toString()
+        return result
+    }
+
     setSession(newSession: ISession) {
         newSession.CurrentRound = new Round(newSession.CurrentRound)
         this.session = newSession
+        this.setVotesDisplay()
     }
 
     setParticipant(participant: IParticipant) {
@@ -66,4 +74,26 @@ export class StateService implements IStateService {
         const result = participantVote && value === participantVote.Value
         return result;
     }
+
+    showVotes() {
+        this.session.CurrentRound.Votes.map(v => {
+            this.setVoteDisplay(v);
+            v.Show = true
+        })
+    }
+
+    setVotesDisplay(){
+        this.session.CurrentRound.Votes.map(v => {
+            this.setVoteDisplay(v);
+        });
+    }
+
+    setVoteDisplay(vote: IVote) {
+        let card = this.session.Cards.find(c => c.Value == vote.Value)
+        if (card) {
+            vote.Display = card.Display
+        }
+
+    }
+
 }
