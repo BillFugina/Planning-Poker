@@ -1,27 +1,15 @@
-import { IParticipant, Round, ISession, ICard, IVote } from 'model'
+import { IParticipant, Round, ISession, ICard, IVote, Session } from 'model'
 import { IStateService } from "services/planning-poker";
-
-const blankSession: ISession = {
-    CurrentRound: new Round(),
-    Id: '',
-    Master: {
-        Id: '',
-        Name: '',
-        Role: 0,
-        Voted: false
-    },
-    Participants: [],
-    Cards: [],
-    Name: ''
-}
 
 export class StateService implements IStateService {
     session: ISession
     participant: IParticipant
     chosen: ICard
+    timeRemaining: number
+    isInActiveRound: boolean
 
     constructor() {
-        this.session = blankSession;
+        this.session = new Session();
     }
 
     get roundAverage(): number {
@@ -48,8 +36,7 @@ export class StateService implements IStateService {
     }
 
     setSession(newSession: ISession) {
-        newSession.CurrentRound = new Round(newSession.CurrentRound)
-        this.session = newSession
+        this.session = new Session(newSession)
         this.setVotesDisplay()
     }
 
@@ -82,10 +69,12 @@ export class StateService implements IStateService {
         })
     }
 
-    setVotesDisplay(){
-        this.session.CurrentRound.Votes.map(v => {
-            this.setVoteDisplay(v);
-        });
+    setVotesDisplay() {
+        if (this.session.CurrentRound) {
+            this.session.CurrentRound.Votes.map(v => {
+                this.setVoteDisplay(v);
+            });
+        }
     }
 
     setVoteDisplay(vote: IVote) {

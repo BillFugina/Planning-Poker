@@ -20,49 +20,57 @@ export class Master {
     }
 
     get enablePrepare() {
-        return this.session.CurrentRound.State != RoundState.Pending
+        return this.state.session.CurrentRound.State != RoundState.Pending
     }
 
     get enableStart() {
-        return this.session.CurrentRound.State == RoundState.Pending
+        return this.state.session.CurrentRound.State == RoundState.Pending
     }
 
     get enableEnd() {
-        return this.session.CurrentRound.State == RoundState.Pending || this.session.CurrentRound.State == RoundState.Started
+        return this.state.session.CurrentRound.State == RoundState.Pending || this.state.session.CurrentRound.State == RoundState.Started
     }
 
     get inRound() {
-        return this.session.CurrentRound.State == RoundState.Pending || this.session.CurrentRound.State == RoundState.Started
+        return this.state.session.CurrentRound.State == RoundState.Pending || this.state.session.CurrentRound.State == RoundState.Started
+    }
+
+    get showTimer() {
+        return this.state.session.CurrentRound.State == RoundState.Started
+    }
+
+    get roundState() {
+        return RoundState[this.state.session.CurrentRound.State]
     }
 
     get showAverage(): boolean {
-        return this.session.CurrentRound.State == RoundState.Complete
+        return this.state.session.CurrentRound.State == RoundState.Complete
     }
 
     get showVotes(): boolean {
-        return this.session.CurrentRound.State == RoundState.Complete
+        return this.state.session.CurrentRound.State == RoundState.Complete
     }
 
     get showCards(): boolean {
-        return this.session.CurrentRound.State == RoundState.Pending 
-        || this.session.CurrentRound.State == RoundState.Started 
-        || this.session.CurrentRound.State == RoundState.Complete
+        return this.state.session.CurrentRound.State == RoundState.Pending 
+        || this.state.session.CurrentRound.State == RoundState.Started 
+        || this.state.session.CurrentRound.State == RoundState.Complete
     }
 
     prepareRound(){
-        var roundId = this.session.prepareRound(this.session.Id)
+        var roundId = this.session.prepareRound(this.state.session.Id)
     }
 
     startCountdown(){
-        this.session.startCountdown(this.session.Id, this.session.CurrentRound.Id)
+        this.session.startCountdown(this.state.session.Id, this.state.session.CurrentRound.Id)
     }
 
     endRound(){
-        this.session.endRound(this.session.Id, this.session.CurrentRound.Id)
+        this.session.endRound(this.state.session.Id, this.state.session.CurrentRound.Id)
     }
 
     participantVote(participant: IParticipant){
-        var vote = this.session.CurrentRound.Votes.find(v => v.Participant.Id == participant.Id)
+        var vote = this.state.session.CurrentRound.Votes.find(v => v.Participant.Id == participant.Id)
         var result = vote ? vote.Value : '-'
         return result
     }

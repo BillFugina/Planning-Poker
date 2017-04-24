@@ -9,7 +9,7 @@ import * as toastr from 'toastr'
 export class Participant {
 
     constructor(
-        private session: ISessionService,
+        private sessionService: ISessionService,
         private state: IStateService
     ) {
 
@@ -27,21 +27,21 @@ export class Participant {
     }
 
     get round() {
-        return this.session.CurrentRound
+        return this.state.session.CurrentRound
     }
     get inRound() {
-        return this.session.CurrentRound.State == RoundState.Pending || this.session.CurrentRound.State == RoundState.Started
+        return this.state.session.CurrentRound.State == RoundState.Pending || this.state.session.CurrentRound.State == RoundState.Started
     }
 
     get showTimer() {
-        return this.session.CurrentRound.State == RoundState.Started
+        return this.state.session.CurrentRound.State == RoundState.Started
     }
 
     cardClick(card: ICard) {
         if (this.chosen === card) {
             card.Chosen = false;
             this.chosen = null;
-            this.session.vote(this.session.Name, this.session.CurrentRound.Id, this.state.participant, -1)
+            this.sessionService.vote(this.state.session.Name, this.state.session.CurrentRound.Id, this.state.participant, -1)
         }
         else {
             if (this.chosen) {
@@ -49,7 +49,7 @@ export class Participant {
             }
             card.Chosen = true;
             this.chosen = card;
-            this.session.vote(this.session.Name, this.session.CurrentRound.Id, this.state.participant, card.Value)
+            this.sessionService.vote(this.state.session.Name, this.state.session.CurrentRound.Id, this.state.participant, card.Value)
         }
     }
 

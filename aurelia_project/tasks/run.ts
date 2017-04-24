@@ -28,6 +28,11 @@ let serve = gulp.series(
           res.setHeader('Access-Control-Allow-Origin', '*');
           next();
         }]
+      },
+      ghostMode:{
+        clicks: false,
+        scroll: false,
+        forms: false
       }
     }, function (err, bs) {
       let urls = bs.options.get('urls').toJS();

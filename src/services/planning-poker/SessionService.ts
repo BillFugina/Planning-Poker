@@ -17,26 +17,10 @@ export class SessionService implements ISessionService {
     ) {
         notificationService.subscribeRoundChange(this.roundChanged)
     }
-    get Id(): IGuid { return this.stateService.session.Id }
-    get Name(): string { return this.stateService.session.Name }
-    get Master(): IParticipant { return this.stateService.session.Master }
-    get Participants(): IParticipant[] { return this.stateService.session.Participants }
-    get CurrentRound(): Round { return this.stateService.session.CurrentRound }
-
-    get Cards(): ICard[] { return this.stateService.session.Cards }
-
-    get CurrentAverage(): number {
-        return this.stateService.session.CurrentRound.Average
-    }
-
-    Rounds: Round[] = [];
-    isInActiveRound: boolean
-    timeRemaining: number
-
     roundChanged = (round: Round) => {
         if (round.Id == this.stateService.session.CurrentRound.Id) {
-            const round = this.stateService.session.CurrentRound;
-            switch (round.State) {
+            const currentRound = this.stateService.session.CurrentRound;
+            switch (currentRound.State) {
                 case RoundState.Complete:
                     this.roundClosed()
                     break;
@@ -50,13 +34,8 @@ export class SessionService implements ISessionService {
     private roundClosed = () => {
         const round = this.stateService.session.CurrentRound
 
-        if (!this.Rounds.some(x => x.Id == round.Id)) {
+        if (!this.stateService.session.Rounds.some(x => x.Id == round.Id)) {
             toastr.error(`Round Over`, 'Round Closed', { closeButton: true, progressBar: true })
-            this.stateService.session.CurrentRound.State = RoundState.Complete
-            this.Rounds.push(this.CurrentRound)
-            this.Rounds.sort((a, b) => {
-                return b.Id - a.Id
-            })
             this.updateRound()
         }
     }
@@ -67,21 +46,21 @@ export class SessionService implements ISessionService {
     }
 
     updateRound = () => {
-        if (this.CurrentRound.State == RoundState.Started) {
+        if (this.stateService.session.CurrentRound.State == RoundState.Started) {
             const now = new Date().getTime()
-            const end = moment(this.CurrentRound.End).toDate().getTime()
+            const end = moment(this.stateService.session.CurrentRound.End).toDate().getTime()
             const diff = end - now
 
-            this.timeRemaining = Math.floor(diff / 1000);
+            this.stateService.timeRemaining = Math.floor(diff / 1000);
 
             if (diff < 1000) {
-                this.CurrentRound.State = RoundState.Complete
-                this.endRound(this.stateService.session.Id, this.CurrentRound.Id);
-                this.isInActiveRound = false;
+                this.stateService.session.CurrentRound.State = RoundState.Complete
+                this.endRound(this.stateService.session.Id, this.stateService.session.CurrentRound.Id);
+                this.stateService.isInActiveRound = false;
             }
 
-            if (this.CurrentRound.State == RoundState.Started) {
-                this.isInActiveRound = true;
+            if (this.stateService.session.CurrentRound.State == RoundState.Started) {
+                this.stateService.isInActiveRound = true;
                 setTimeout(this.updateRound, 500);
             }
         }
@@ -121,6 +100,7 @@ export class SessionService implements ISessionService {
 
             }
         }
+
         var result = !!(
             this.stateService.session
             && this.stateService.session.Id != ''
@@ -168,7 +148,7 @@ export class SessionService implements ISessionService {
     }
 
     private putSessionIdIntoStorage(sessionId: IGuid) {
-        this.localStorageService.set('SessionID', this.Id)
+        this.localStorageService.set('SessionID', this.stateService.session.Id)
     }
 
     private removeSessionIdFromStorage() {
@@ -224,8 +204,6 @@ export class SessionService implements ISessionService {
             toastr.error(`Error ending round: ${error}`)
         }
     }
-
-
     async endRound(sessionId: IGuid, roundId: number): Promise<void> {
         try {
             var result = await this.apiService.EndRound(sessionId, roundId)
@@ -234,7 +212,6 @@ export class SessionService implements ISessionService {
             toastr.error(`Error ending round: ${error}`)
         }
     }
-
     async vote(sessionName: IGuid, roundId: number, participant: IParticipant, value: number): Promise<void> {
         try {
             var result = await this.apiService.Vote(sessionName, roundId, participant, value)

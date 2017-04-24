@@ -1,7 +1,7 @@
 <template>
     <div class="participant">
         <div class="header panel panel-default">
-            <div><h1>Session: ${session.Name}</h1></div>
+            <div><h1>Session: ${state.session.Name}</h1></div>
             <div><h1 show.bind="inRound">Round: ${round.Id}</h1></div>
         </div>
         <div class="waiting panel panel-default" show.bind="!inRound">
@@ -10,7 +10,7 @@
         <div class="round panel panel-default" show.bind="inRound">
             <div class="timer" show.bind="showTimer">Time remaining: ${session.timeRemaining}</div>
             <div class="cards">
-                <div  repeat.for="card of session.Cards" class="card" class.bind="card.Chosen ? 'chosen' : 'not-chosen'" click.delegate="cardClick(card)">
+                <div  repeat.for="card of state.session.Cards" class="card" class.bind="card.Chosen ? 'chosen' : 'not-chosen'" click.delegate="cardClick(card)">
                     <div class="display">${card.Display}</div>
                 </div>
             </div>

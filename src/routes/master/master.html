@@ -2,10 +2,10 @@
     <div class="master">
         <div class="header panel panel-default">
             <div>
-                <h1>Session: ${session.Name}</h1>
+                <h1>Session: ${state.session.Name}</h1>
             </div>
             <div>
-                <h1 show.bind="inRound">Round: ${session.CurrentRound.Id}</h1>
+                <h1 show.bind="inRound">Round: ${state.session.CurrentRound.Id}</h1>
             </div>
         </div>
         <div class="info center">
@@ -23,12 +23,11 @@
                     <i class="fa fa-stop" aria-hidden="true"></i>
                     Stop
                 </button>
-                <div show.bind="session.isInActiveRound">Time remaining: ${session.timeRemaining}</div>
             </div>
             <div class="panel panel-default">
                 <h3>Participants</h3>
                 <ul class="list">
-                    <li repeat.for="participant of session.Participants">
+                    <li repeat.for="participant of state.session.Participants">
                         <div class="icon"><i class="fa fa-lg ${participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
                         <div class="name">${participant.Name}</div>
                         <div class="vote"><i show.bind="participant.Voted" class="fa fa-check"></i></div>
@@ -37,7 +36,7 @@
             </div>
             <div class="current panel panel-default">
                 <div class="title">
-                    <h3>Current Round<span if.bind="inRound && session.CurrentRound.Id > 0">: ${session.CurrentRound.Id}</span></h3>
+                    <h3>Current Round<span>: ${state.session.CurrentRound.Id} - ${roundState}</span></h3>
                 </div>
                 <div class="content">
                     <div class="response flip-container" class.bind="showAverage ? 'reveal' : ''">
@@ -50,20 +49,27 @@
                             </div>
                         </div>
                     </div>
+                    <div class="time" show.bind="state.isInActiveRound"><span class="display">${state.timeRemaining}</span></div>
+
                 </div>
             </div>
-            <div class="panel panel-default">
+            <div class="rounds panel panel-default">
                 <h3>Rounds</h3>
-                <ul class="list">
-                    <li repeat.for="round of session.Rounds">
-                        <div>${round.Id}</div>
-                        <div>${round.Average}</div>
-                    </li>
-                </ul>
+                <div class="content">
+                    <ul class="list">
+                        <li repeat.for="round of state.session.Rounds">
+                            <div>${round.Id}</div>
+                            <div>
+                                <span show.bind="$first && !showAverage">?</span>
+                                <span hide.bind="$first && !showAverage">${round.Average}</span>
+                                </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="participants panel panel-default" show.bind="showCards">
-            <div repeat.for="vote of session.CurrentRound.Votes" class="vote">
+            <div repeat.for="vote of state.session.CurrentRound.Votes" class="vote">
                 <div class="response flip-container" class.bind="showVotes ? 'reveal' : ''">
                     <div class="flipper card">
                         <div class="front">
@@ -77,7 +83,6 @@
                 <div class="participant">
                     <div>${vote.Participant.Name}</div>
                 </div>
-
             </div>
         </div>
     </div>

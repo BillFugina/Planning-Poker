@@ -12,7 +12,7 @@ export interface IApiService {
 }
 
 
-export interface ISessionService extends ISession {
+export interface ISessionService {
     refresh(): Promise<boolean>
     updateSession(newSession: ISession)
     startSession(session: string, master: string): Promise<ISession>
@@ -22,8 +22,6 @@ export interface ISessionService extends ISession {
     startCountdown(sessionId: IGuid, roundId : number) : Promise<Round>
     endRound(sessionId: IGuid, roundId : number): Promise<void>
     vote(sessionName: IGuid, roundId: number,  participant: IParticipant, value: number ): Promise<void>
-    isInActiveRound : boolean
-    timeRemaining : number
 }
 
 export interface ISimpleService {
@@ -44,6 +42,8 @@ export interface IStateService {
     chosen: ICard
     roundAverage: number
     roundAverageDisplay: string
+    timeRemaining: number
+    isInActiveRound: boolean
 
     resetCards()
     showVotes()

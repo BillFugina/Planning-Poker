@@ -28,6 +28,61 @@ export interface IParticipantApplication {
     Role: ParticipantRole
 }
 
+export class Session implements ISession {
+    Id: IGuid
+    Name: string
+    Master: IParticipant
+    Participants: IParticipant[]
+    Cards: ICard[]
+    Rounds: Round[]
+
+    constructor(input?: ISession) {
+        if (input) {
+            this.Id = input.Id
+            this.Name = input.Name
+            this.Master = input.Master
+            this.Participants = [...input.Participants]
+            this.Cards = [...input.Cards]
+            this.Rounds = [];
+            input.Rounds.map(r => {
+                let round = new Round(r);
+                this.Rounds.push(round);
+            })
+        }
+        else {
+            this.Id = ''
+            this.Name = ''
+            this.Master = {
+                Id: '',
+                Name: '',
+                Role: 0,
+                Voted: false
+            }
+
+        }
+    }
+
+    get CurrentRound(): Round {
+        let result = null
+        if (this.Rounds && this.Rounds.length > 0) {
+            result = this.Rounds[0]
+        }
+        else {
+            result = new Round()
+        }
+        return result;
+    }
+
+    set CurrentRound(round: Round) {
+        let existingRoundNdx = this.Rounds.findIndex(r => r.Id == round.Id)
+        if (existingRoundNdx >= 0) {
+            this.Rounds.splice(existingRoundNdx, 1)
+        }
+        this.Rounds.unshift(round);
+    }
+
+}
+
 export interface ISession {
     Id: IGuid
     Name: string
@@ -35,6 +90,7 @@ export interface ISession {
     Participants: IParticipant[]
     Cards: ICard[]
     CurrentRound: Round
+    Rounds: Round[]
 }
 
 export interface ISessionId {
