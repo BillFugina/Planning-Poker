@@ -25,7 +25,6 @@
   "peerDependencies": {},
   "devDependencies": {
     "@types/pusher-js": "^3.0.29",
-    "@types/signalr": "^2.2.33",
     "@types/jasmine": "^2.2.0",
     "@types/node": "^6.0.45",
     "@types/toastr": "^2.1.32",
