@@ -13,7 +13,7 @@ export class ApiService implements IApiService {
 
         this.client.configure(config => {
             config
-                .withBaseUrl('http://localhost:9002/api/')
+                .withBaseUrl('http://planningpoker-api.azurewebsites.net/api/')
                 .withDefaults({
                     headers: {
                         'Accept': 'application/json',
