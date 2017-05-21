@@ -78,21 +78,29 @@
                 </div>
             </div>
         </div>
-        <div class="participants" show.bind="showCards">
-            <div repeat.for="vote of state.session.CurrentRound.Votes" class="vote">
-                <div class="response flip-container" class.bind="showVotes ? 'reveal' : ''">
-                    <div class="flipper card">
-                        <div class="front">
-                            <div class="display">?</div>
-                        </div>
-                        <div class="back">
-                            <div class="display">${vote.Display}</div>
+        <div class="play-area">
+            <div class="participants" show.bind="showCards">
+                <div repeat.for="vote of state.session.CurrentRound.Votes" class="vote">
+                    <div class="response flip-container" class.bind="showVotes ? 'reveal' : ''">
+                        <div class="flipper card">
+                            <div class="front">
+                                <div class="display">?</div>
+                            </div>
+                            <div class="back">
+                                <div class="display">${vote.Display}</div>
+                            </div>
                         </div>
                     </div>
+                    <div class="participant">
+                        <span class="name">${vote.Participant.Name}</span>
+                    </div>
                 </div>
-                <div class="participant">
-                    <span class="name">${vote.Participant.Name}</span>
-                </div>
+            </div>
+            <div class="session-link">
+                <span>Join Session at ${sessionUrl}</span>
+            </div>
+            <div class="qr-code center-image">
+                <img src.bind="qrCode"></img>
             </div>
         </div>
     </div>

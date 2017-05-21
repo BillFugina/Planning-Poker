@@ -4,7 +4,12 @@ export type IJson = string
 export type IHash<TValue> = { [key: string]: TValue }
 export type IDateTime = string
 
-
+export interface ISettings {
+    name: string;
+    clientUrl: string;
+    serverUrl: string;
+    apiPath: string;
+}
 export enum ParticipantRole {
     Observer = 0,
     Voter = 1,

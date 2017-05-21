@@ -1,3 +1,8 @@
+body,
+html {
+  height: 100%;
+}
+
 .card {
   background-color: gainsboro;
   width: 100px;
@@ -52,12 +57,12 @@ button {
   }
 }
 
-.participant {
+.participant-view {
   display: grid;
   grid-template-columns: 2% auto 2%;
   grid-template-rows: 1fr 10fr;
 
-  .name{
+  .name {
     font-size: 18pt;
   }
 
@@ -143,9 +148,10 @@ button {
 }
 
 .master {
+  height: 100%;
   display: grid;
   grid-template-columns: 150px auto 150px;
-  grid-template-rows: 100px 250px 0;
+  grid-template-rows: 100px 250px auto;
 
   .header {
     grid-row: 1;
@@ -168,19 +174,15 @@ button {
     grid-column: 3;
   }
 
-  .vote {
-    grid-column: 3;
-  }
-
   .info {
     grid-row: 2;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-gap: 10px;
 
-    .controls{
+    .controls {
       display: grid;
-      grid-template-rows: 1fr 1fr 1fr
+      grid-template-rows: 1fr 1fr 1fr;
     }
 
     .title {
@@ -223,27 +225,50 @@ button {
 
   }
 
-  .participants {
+  .play-area {
     grid-row: 3;
     grid-column: 2;
 
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    flex-direction: column;
 
-    .vote {
+    .participants {
+      grid-row: 1;
+
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+
+      .vote {
+        height: 200px;
+        display: grid;
+        justify-items: center;
+
+        .resonse {
+          grid-row: 1;
+        }
+
+        .participant {
+          grid-row: 2;
+
+          .name {
+            font-size: 18pt;
+          }
+
+        }
+
+      }
+    }
+
+    .qr-code {
+      flex: 1 1 auto;
+    }
+
+    .session-link {
+      font-size: 24pt;
       display: grid;
-      grid-template-rows: 1fr 1fr;
       justify-items: center;
-
-      .resonse {
-        grid-row: 1;
-      }
-
-      .participant {
-        grid-row: 2;
-      }
-
+      margin-top: 10px;
     }
   }
 }
@@ -298,4 +323,30 @@ button {
 /* back, initially hidden pane */
 .back {
   transform: rotateY(180deg);
+}
+
+.fill-vertical {
+  height: 100%;
+}
+
+.fill-horizontal {
+  width: 100%;
+}
+
+.center-image {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+
+.center-image img {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
 }

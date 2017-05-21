@@ -3,6 +3,7 @@ import { ISession, IParticipant, RoundState } from 'model'
 import { ISessionService, IApiService, IStateService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
+import { Settings } from 'environment'
 import * as toastr from 'toastr'
 
 @inject(DI.ISessionService, DI.IStateService)
@@ -13,6 +14,14 @@ export class Master {
         private session: ISessionService,
         private state: IStateService
     ) {
+    }
+
+    get qrCode(){
+        return `${Settings.serverUrl}${Settings.apiPath}/sessions/${this.state.session.Id}/qrcode`
+    }
+
+    get sessionUrl() : string {
+        return `${Settings.clientUrl}`
     }
 
     get roundAverage() {
