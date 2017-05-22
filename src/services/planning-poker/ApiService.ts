@@ -4,6 +4,7 @@ import { inject } from 'aurelia-framework'
 import { IApiService } from 'services/planning-poker'
 import { ISession, ISessionApplication, IParticipantApplication, Round, IGuid, IParticipant, ParticipantRole, IVote, IVoteBallot } from 'model'
 import { HttpClient, json } from 'aurelia-fetch-client'
+import { Settings } from 'environment'
 
 export class ApiService implements IApiService {
     private client: HttpClient
@@ -13,7 +14,7 @@ export class ApiService implements IApiService {
 
         this.client.configure(config => {
             config
-                .withBaseUrl('http://planningpoker-api.azurewebsites.net/api/')
+                .withBaseUrl(`${Settings.serverUrl}${Settings.apiPath}/`)
                 .withDefaults({
                     headers: {
                         'Accept': 'application/json',

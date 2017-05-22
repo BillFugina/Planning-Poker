@@ -1,8 +1,8 @@
 import { ISettings } from 'model'
 
 export default {
-  debug: true,
-  testing: true,
+  debug: false,
+  testing: false,
 };
 
 export const Settings : ISettings = {
