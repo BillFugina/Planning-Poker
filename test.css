@@ -34,6 +34,12 @@ body {
   flex-wrap: wrap;
 }
 
+.info-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .footer {
   border-width: 1px;
   border-style: solid;
@@ -45,43 +51,82 @@ body {
   border-width: 1px;
   border-style: solid;
   border-color: black;
-  width: 4em;
-  height: 6em;
+  width: 5em;
+  height: 7em;
   margin: .25em;
   border-radius: .25em;
 }
-@media (max-width : 319px) {
+
+@media (orientation:landscape) and (max-width: 819px){
   body {
-    font-size: 60%;
+    font-size: 3.5vw;
+    background-color: lightgreen;
+  }
+    
+}
+
+@media (orientation:landscape) and (min-width: 820px){
+  body {
+    font-size: 2.5vw;
+    background-color: lightseagreen;
+  }
+    
+}
+
+@media (orientation:portrait) and (max-width: 649px){
+  body {
+    font-size: 4.4vw;
+    background-color: lightblue;
+  }
+    
+}
+
+@media (orientation:portrait) and (min-width: 650px){
+  body {
+    font-size: 3.5vw;
+    background-color: lightslategray;
+  }
+    
+}
+
+/*@media (max-width : 319px) {
+  body {
+    font-size: 5vw;
     background-color: lightcoral;
   }
 }
+
 @media (min-width : 320px) and (max-width: 479px) {
   body {
-    font-size: 100%;
+    font-size: 5vw;
     background-color: lightblue;
   }
 }
 
-@media (min-width : 480px) 
-    and (max-width: 1223px) 
-    {
+@media (min-width : 480px) and (max-width: 1223px) and (orientation: portrait) {
   body {
-    font-size: 444%;
+    font-size: 5vw;
     background-color: lightgreen;
   }
 }
 
-@media (min-width : 1224px) and (max-width: 1823px) {
+@media (min-width : 480px) and (max-width: 1223px) and (orientation: landscape), (device-aspect-ratio: 3/4) {
   body {
-    font-size: 250%;
+    font-size: 5vw;
+    background-color: lightgreen;
+  }
+}
+
+@media (min-width : 1224px) and (max-width: 1823px) and (orientation: landscape) {
+  body {
+    font-size: 5vw;
     background-color: lightyellow;
   }
 }
 
 @media (min-width : 1824px) {
   body {
-    font-size: 400%;
+    font-size: 5vw;
     background-color: lightgray;
   }
-}
+}*/
