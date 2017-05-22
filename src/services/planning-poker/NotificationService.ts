@@ -70,6 +70,7 @@ export class NotificationService implements INotificationService {
         toastr.success('Round Ready')
         const round = new Round(data)
         this.stateService.session.CurrentRound = round
+        this.stateService.chosen = null;
         this.resetParticipantVotes();
         this.stateService.resetCards();
     }
