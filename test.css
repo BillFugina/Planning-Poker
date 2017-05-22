@@ -1,0 +1,87 @@
+html {
+  height: 99%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.header {
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+}
+
+.info {
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer {
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  flex: 1 1 auto;
+}
+
+.card {
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  width: 4em;
+  height: 6em;
+  margin: .25em;
+  border-radius: .25em;
+}
+@media (max-width : 319px) {
+  body {
+    font-size: 60%;
+    background-color: lightcoral;
+  }
+}
+@media (min-width : 320px) and (max-width: 479px) {
+  body {
+    font-size: 100%;
+    background-color: lightblue;
+  }
+}
+
+@media (min-width : 480px) 
+    and (max-width: 1223px) 
+    {
+  body {
+    font-size: 444%;
+    background-color: lightgreen;
+  }
+}
+
+@media (min-width : 1224px) and (max-width: 1823px) {
+  body {
+    font-size: 250%;
+    background-color: lightyellow;
+  }
+}
+
+@media (min-width : 1824px) {
+  body {
+    font-size: 400%;
+    background-color: lightgray;
+  }
+}
