@@ -7,6 +7,10 @@
     "url": "???"
   },
   "license": "MIT",
+  "scripts": {
+    "deploy": "copyfiles -e *.js* *.* scripts/**/*.* deploy/",
+    "clean": "n-clean deploy"
+  },
   "dependencies": {
     "aurelia-animator-css": "^1.0.2",
     "aurelia-bootstrapper": "^2.1.1",
@@ -24,15 +28,16 @@
   },
   "peerDependencies": {},
   "devDependencies": {
-    "@types/pusher-js": "^3.0.29",
     "@types/jasmine": "^2.2.0",
     "@types/node": "^6.0.45",
+    "@types/pusher-js": "^3.0.29",
     "@types/toastr": "^2.1.32",
     "aurelia-cli": "^0.28.0",
     "aurelia-testing": "^1.0.0-beta.3.0.1",
     "aurelia-tools": "^1.0.0",
     "browser-sync": "^2.13.0",
     "connect-history-api-fallback": "^1.2.0",
+    "copyfiles": "^1.2.0",
     "event-stream": "^3.3.3",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-changed-in-place": "^2.0.3",
@@ -51,6 +56,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-typescript-preprocessor": "^0.2.1",
     "minimatch": "^3.0.2",
+    "npm-build-tools": "^2.2.5",
     "through2": "^2.0.1",
     "tslint": "^3.11.0",
     "typescript": "^2.2.2",
