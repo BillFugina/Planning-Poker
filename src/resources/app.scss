@@ -361,7 +361,7 @@ button {
 /* < .72 */
 @media screen and (max-aspect-ratio: 18/25) {
   .participant-view{
-    background-color: orange;
+    // background-color: orange;
     font-size: 5.4vw;
   }
 }
@@ -369,7 +369,7 @@ button {
 /* .72 - .9 */
 @media screen and (min-aspect-ratio: 18/25) and (max-aspect-ratio: 9/10) {
   .participant-view{
-    background-color: yellow;
+    //background-color: yellow;
     font-size: 4.4vw;
   }
 }
@@ -377,7 +377,7 @@ button {
 /* .9 - 1.5 */
 @media screen and (min-aspect-ratio: 9/10) and (max-aspect-ratio: 8/5) {
   .participant-view{
-    background-color: green;
+    //background-color: green;
     font-size: 3.5vw;
   }
 }
@@ -385,7 +385,7 @@ button {
 /* > 1.5 */
 @media screen and (min-aspect-ratio: 8/5) {
   .participant-view{
-    background-color: blue;
+    //background-color: blue;
     font-size: 1.9vw;
   }
 }
@@ -393,7 +393,7 @@ button {
 /* > 4 */
 @media screen and (min-aspect-ratio: 4/1) {
   .participant-view{
-    background-color: indigo;
+    //background-color: indigo;
     font-size: 1.8vw;
   }
 }
@@ -401,7 +401,7 @@ button {
 /* > 4 */
 @media screen and (min-aspect-ratio: 27/5) {
   .participant-view{
-    background-color: violet;
+    //background-color: violet;
     font-size: 9vmin;
   }
 }
