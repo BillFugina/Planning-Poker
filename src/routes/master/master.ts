@@ -17,11 +17,11 @@ export class Master {
     }
 
     get qrCode(){
-        return `${Settings.serverUrl}${Settings.apiPath}/sessions/${this.state.session.Id}/qrcode`
+        return `${Settings.serverUrl}${Settings.apiPath}/sessions/${this.state.session.Name}/qrcode`
     }
 
     get sessionUrl() : string {
-        return `${Settings.clientUrl}`
+        return `${Settings.clientUrl}/#/join/${this.state.session.Name}`
     }
 
     get roundAverage() {

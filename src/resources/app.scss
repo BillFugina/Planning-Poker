@@ -65,7 +65,7 @@ button {
 }
 
 .participant-view {
-  h1{
+  h1 {
     font-size: .7em;
   }
 
@@ -154,7 +154,7 @@ button {
 }
 
 .master {
-  font-size:initial;
+  font-size: initial;
   height: 100%;
   display: grid;
   grid-template-columns: 50px auto 50px;
@@ -358,9 +358,25 @@ button {
   top: 0;
 }
 
+.join-view {
+  display: grid;
+  grid-template-columns: 1.5em auto 1.5em;
+
+  h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .jumbotron{
+    grid-column: 2;
+    padding: 1em;
+  }
+
+}
+
 /* < .72 */
 @media screen and (max-aspect-ratio: 18/25) {
-  .participant-view{
+  .media-queries {
     // background-color: orange;
     font-size: 5.4vw;
   }
@@ -368,7 +384,7 @@ button {
 
 /* .72 - .9 */
 @media screen and (min-aspect-ratio: 18/25) and (max-aspect-ratio: 9/10) {
-  .participant-view{
+  .media-queries {
     //background-color: yellow;
     font-size: 4.4vw;
   }
@@ -376,7 +392,7 @@ button {
 
 /* .9 - 1.5 */
 @media screen and (min-aspect-ratio: 9/10) and (max-aspect-ratio: 8/5) {
-  .participant-view{
+  .media-queries {
     //background-color: green;
     font-size: 3.5vw;
   }
@@ -384,7 +400,7 @@ button {
 
 /* > 1.5 */
 @media screen and (min-aspect-ratio: 8/5) {
-  .participant-view{
+  .media-queries {
     //background-color: blue;
     font-size: 1.9vw;
   }
@@ -392,7 +408,7 @@ button {
 
 /* > 4 */
 @media screen and (min-aspect-ratio: 4/1) {
-  .participant-view{
+  .media-queries {
     //background-color: indigo;
     font-size: 1.8vw;
   }
@@ -400,7 +416,7 @@ button {
 
 /* > 4 */
 @media screen and (min-aspect-ratio: 27/5) {
-  .participant-view{
+  .media-queries {
     //background-color: violet;
     font-size: 9vmin;
   }

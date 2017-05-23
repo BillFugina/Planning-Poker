@@ -8,6 +8,6 @@ export default {
 export const Settings : ISettings = {
   name: 'local',
   clientUrl: 'http://localhost:9000',
-  serverUrl: 'http://localhost:9002',
+  serverUrl: 'http://planningpoker-api.azurewebsites.net',
   apiPath: '/api'
 }

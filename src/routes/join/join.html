@@ -1,0 +1,20 @@
+<template>
+    <div class="join-view media-queries">
+        <div class="jumbotron">
+            <h1>Planning Poker</h1>
+            <form>
+                <div class="form-group">
+                    <label for="session-name">Session Name</label>
+                    <input type="text" class="form-control" id="session-name" placeholder="Session" value.bind="session" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="your-name">Your Name</label>
+                    <input type="text" class="form-control" id="your-name" placeholder="Name" value.bind="participant">
+                </div>
+                <button type="button" class="btn btn-primary" click.delegate="joinSession()" disabled.bind="joinDisabled">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Join Session
+                </button>
+            </form>
+        </div>
+</template>
