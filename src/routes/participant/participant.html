@@ -8,7 +8,6 @@
             <div class="big">Waiting</div>
         </div>
         <div class="round panel panel-default" show.bind="inRound">
-            <div class="timer" show.bind="showTimer">Time remaining: ${session.timeRemaining}</div>
             <div class="cards">
                 <div  repeat.for="card of state.session.Cards" class="card" class.bind="card.Chosen ? 'chosen' : 'not-chosen'" click.delegate="cardClick(card)">
                     <div class="display">${card.Display}</div>

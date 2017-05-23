@@ -8,6 +8,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-size: 3.5vw;
 }
 
 .main {
@@ -57,76 +58,50 @@ body {
   border-radius: .25em;
 }
 
-@media (orientation:landscape) and (max-width: 819px){
-  body {
-    font-size: 3.5vw;
-    background-color: lightgreen;
+/* < .72 */
+@media screen and (max-aspect-ratio: 18/25) {
+  body{
+    background-color: orange;
+    font-size: 5.4vw;
   }
-    
 }
 
-@media (orientation:landscape) and (min-width: 820px){
-  body {
-    font-size: 2.5vw;
-    background-color: lightseagreen;
-  }
-    
-}
-
-@media (orientation:portrait) and (max-width: 649px){
-  body {
+/* .72 - .9 */
+@media screen and (min-aspect-ratio: 18/25) and (max-aspect-ratio: 9/10) {
+  body{
+    background-color: yellow;
     font-size: 4.4vw;
-    background-color: lightblue;
   }
-    
 }
 
-@media (orientation:portrait) and (min-width: 650px){
-  body {
+/* .9 - 1.5 */
+@media screen and (min-aspect-ratio: 9/10) and (max-aspect-ratio: 8/5) {
+  body{
+    background-color: green;
     font-size: 3.5vw;
-    background-color: lightslategray;
-  }
-    
-}
-
-/*@media (max-width : 319px) {
-  body {
-    font-size: 5vw;
-    background-color: lightcoral;
   }
 }
 
-@media (min-width : 320px) and (max-width: 479px) {
-  body {
-    font-size: 5vw;
-    background-color: lightblue;
+/* > 1.5 */
+@media screen and (min-aspect-ratio: 8/5) {
+  body{
+    background-color: blue;
+    font-size: 1.9vw;
   }
 }
 
-@media (min-width : 480px) and (max-width: 1223px) and (orientation: portrait) {
-  body {
-    font-size: 5vw;
-    background-color: lightgreen;
+/* > 4 */
+@media screen and (min-aspect-ratio: 4/1) {
+  body{
+    background-color: indigo;
+    font-size: 1.8vw;
   }
 }
 
-@media (min-width : 480px) and (max-width: 1223px) and (orientation: landscape), (device-aspect-ratio: 3/4) {
-  body {
-    font-size: 5vw;
-    background-color: lightgreen;
+/* > 4 */
+@media screen and (min-aspect-ratio: 27/5) {
+  body{
+    background-color: violet;
+    font-size: 9vmin;
   }
 }
-
-@media (min-width : 1224px) and (max-width: 1823px) and (orientation: landscape) {
-  body {
-    font-size: 5vw;
-    background-color: lightyellow;
-  }
-}
-
-@media (min-width : 1824px) {
-  body {
-    font-size: 5vw;
-    background-color: lightgray;
-  }
-}*/
