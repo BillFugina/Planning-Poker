@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "scripts": {
+    "start": "au run --watch --env local",
     "deploy": "copyfiles -e *.js* *.* assets/**/*.* scripts/**/*.* deploy/",
     "clean": "n-clean deploy"
   },

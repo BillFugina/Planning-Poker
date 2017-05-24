@@ -1,7 +1,19 @@
 <template>
-    <div class="home container">
-        <div class="jumbotron">
+    <div class="home media-queries">
+        <div class="instructions panel">
             <h1>Planning Poker</h1>
+            <p>Games of planning poker are organized by session name.</p>
+            <p>
+                All users entering with the same session name will be playing the same game.
+                Session names are case sensitive. Start or join a session below. 
+            </p>
+            <p>
+                A session should be started on a large-form display visible to all users. 
+                On the session page, there will be a large QR Code to help players to join the round.
+            </p>
+        </div>
+        <div class="start-session panel">
+            <h3>Start Session</h3>
             <form>
                 <div class="form-group">
                     <label for="session-name">Session Name</label>
@@ -14,8 +26,8 @@
                 <p><a class="btn btn-primary btn-lg" role="button" click.delegate="startSession()">Start Session</a></p>
             </form>
         </div>
-        <div>
-            <h3>Join a session in progress</h3>
+        <div class="join-session panel">
+            <h3>Join Session</h3>
             <form>
                 <div class="form-group">
                     <label for="session-name">Session Name</label>
