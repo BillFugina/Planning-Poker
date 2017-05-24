@@ -7,7 +7,7 @@ export default {
 
 export const Settings : ISettings = {
   name: 'azure',
-  clientUrl: 'http://planningpoker-client.azurewebsites.net/',
+  clientUrl: 'http://planningpoker-client.azurewebsites.net',
   serverUrl: 'http://planningpoker-api.azurewebsites.net',
   apiPath: '/api'
 }
