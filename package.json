@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "deploy": "copyfiles -e *.js* *.* scripts/**/*.* deploy/",
+    "deploy": "copyfiles -e *.js* *.* assets/**/*.* scripts/**/*.* deploy/",
     "clean": "n-clean deploy"
   },
   "dependencies": {

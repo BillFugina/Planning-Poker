@@ -11,7 +11,7 @@ body {
 }
 
 .card {
-  background-color: gainsboro;
+  background-color: cadetblue;
   width: 100px;
   height: 150px;
   margin: 10px;
@@ -31,6 +31,11 @@ body {
     align-self: center;
     justify-self: center;
   }
+
+  div{
+    border-radius: 10px;
+  }
+
 }
 
 .display {
@@ -115,7 +120,7 @@ button {
 
       .card {
         cursor: pointer;
-        background-color: gainsboro;
+        background-color: lightgoldenrodyellow;
         width: 5em;
         height: 7em;
         margin: .25em;
@@ -159,6 +164,12 @@ button {
   display: grid;
   grid-template-columns: 50px auto 50px;
   grid-template-rows: 100px 250px auto;
+
+  .flipper {
+    .front {
+      background-image: url("assets/images/nami.png");
+    }
+  }
 
   .header {
     grid-row: 1;
@@ -367,7 +378,7 @@ button {
     font-weight: bold;
   }
 
-  .jumbotron{
+  .jumbotron {
     grid-column: 2;
     padding: 1em;
   }
