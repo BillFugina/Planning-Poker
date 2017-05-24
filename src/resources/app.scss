@@ -18,15 +18,15 @@ body {
   display: grid;
   grid-template-columns: auto-fit auto-fit;
   grid-template-rows: 1fr auto;
-  grid-column-gap: 0.5em;
+  grid-column-gap: .5em;
 
-  label{
-    font-size: 0.7em;
+  label {
+    font-size: .7em;
     font-weight: initial;
   }
 
   h3 {
-    font-size: 0.8em;
+    font-size: .8em;
     font-weight: bold;
   }
 
@@ -184,11 +184,13 @@ button {
           justify-self: center;
         }
 
-        &:hover {
-          background-color: white;
-          position: relative;
-          top: -3px;
-          left: -3px;
+        &.has-hover {
+          &:hover {
+            background-color: white;
+            position: relative;
+            top: -3px;
+            left: -3px;
+          }
         }
 
         &.chosen {

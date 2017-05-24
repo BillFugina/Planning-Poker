@@ -35,7 +35,6 @@ export class SessionService implements ISessionService {
         const round = this.stateService.session.CurrentRound
 
         if (!this.stateService.session.Rounds.some(x => x.Id == round.Id)) {
-            toastr.error(`Round Over`, 'Round Closed', { closeButton: true, progressBar: true })
             this.updateRound()
         }
     }
@@ -119,7 +118,6 @@ export class SessionService implements ISessionService {
     async startSession(session: string, master: string): Promise<ISession> {
         try {
             var result = await this.apiService.StartSession(session, master)
-            toastr.info(`Session: ${result.Name}`, 'Session Started', { closeButton: true, progressBar: true })
             this.updateSession(result)
             this.stateService.setParticipant(result.Master)
             this.putParticipantIntoStorage(result.Master)
@@ -170,7 +168,6 @@ export class SessionService implements ISessionService {
     async joinSession(sessionName: string, participantName: string): Promise<ISession> {
         try {
             var result = await this.apiService.JoinSession(sessionName, participantName)
-            toastr.info(`Session: ${result.Name}`, 'Joined Session', { closeButton: true, progressBar: true })
             let participant = result.Participants.find(p => p.Name == participantName)
             this.stateService.setParticipant(participant)
             this.putParticipantIntoStorage(participant)
@@ -185,7 +182,6 @@ export class SessionService implements ISessionService {
     async prepareRound(sessionId: IGuid): Promise<Round> {
         try {
             var result = await this.apiService.PrepareRound(sessionId)
-            toastr.info(`Preparing round: ${result}`, 'Round Ready', { closeButton: true, progressBar: true })
             this.stateService.session.CurrentRound = result
             this.updateRound()
             return result

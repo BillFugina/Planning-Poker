@@ -53,7 +53,6 @@ export class NotificationService implements INotificationService {
     }
 
     registerVote = (data: IVote) => {
-        toastr.success(`Vote`)
         let card = this.stateService.session.Cards.find(c => c.Value == data.Value)
         if (card){
             data.Display = card.Display

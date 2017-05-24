@@ -9,7 +9,7 @@
         </div>
         <div class="round panel panel-default" show.bind="inRound">
             <div class="cards">
-                <div  repeat.for="card of state.session.Cards" class="card" class.bind="card.Chosen ? 'chosen' : 'not-chosen'" click.delegate="cardClick(card)">
+                <div  repeat.for="card of state.session.Cards" class="card ${card.Chosen ? 'chosen' : 'not-chosen'} ${hasHover ? 'has-hover' : 'no-hover'}" click.delegate="cardClick(card)">
                     <div class="display">${card.Display}</div>
                 </div>
             </div>

@@ -56,3 +56,8 @@ export interface IStateService {
     addParticipant(participant: IParticipant)
     getCardDisplay(value: number)
 }
+
+export interface IBrowserFeatureDetectionService {
+    is_touch_device(): boolean
+    hasHover(): boolean
+}
