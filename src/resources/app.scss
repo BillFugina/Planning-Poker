@@ -32,7 +32,7 @@ body {
     justify-self: center;
   }
 
-  div{
+  div {
     border-radius: 10px;
   }
 
@@ -70,13 +70,16 @@ button {
 }
 
 .participant-view {
+  height: 100%;
+  border-style: solid;
+
   h1 {
     font-size: .7em;
   }
 
   display: grid;
   grid-template-columns: 2% auto 2%;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 3em auto;
 
   .name {
     font-size: 18pt;
@@ -113,10 +116,13 @@ button {
 
     .cards {
       grid-row: 2;
+      height: 0;
 
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 5.3em);
+      grid-template-rows: repeat(auto-fit, 7.5em);
+      justify-content: center;
 
       .card {
         cursor: pointer;
