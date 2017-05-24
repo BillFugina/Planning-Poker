@@ -40,7 +40,7 @@ export class SessionService implements ISessionService {
     }
 
     private roundStarted = () => {
-        toastr.warning(`Countdown Started`, 'Round Ending', { closeButton: true, progressBar: true })
+        toastr.warning(`Countdown Started`, 'Round Ending', { closeButton: true, progressBar: true, timeOut: 8500 })
         this.updateRound()
     }
 
