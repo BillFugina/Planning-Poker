@@ -1,18 +1,19 @@
 import { NavigationInstruction, RouteConfig } from 'aurelia-router'
 import { ISession, IParticipant, RoundState } from 'model'
-import { ISessionService, IApiService, IStateService } from 'services/planning-poker'
+import { ISessionService, IApiService, IStateService, ISanitizerService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
 import { Settings } from 'environment'
 import * as toastr from 'toastr'
 
-@inject(DI.ISessionService, DI.IStateService)
+@inject(DI.ISessionService, DI.IStateService, DI.ISanitizerService)
 export class Master {
     master: string
 
     constructor(
         private session: ISessionService,
-        private state: IStateService
+        private state: IStateService,
+        private sanitizerService: ISanitizerService
     ) {
     }
 
@@ -21,7 +22,7 @@ export class Master {
     }
 
     get sessionUrl() : string {
-        return `${Settings.clientUrl}/#/join/${this.state.session.Name}`
+        return `${Settings.clientUrl}/#/join/${this.sanitizerService.LettersAndDigits(this.state.session.Name)}`
     }
 
     get roundAverage() {
