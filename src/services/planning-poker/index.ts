@@ -61,3 +61,7 @@ export interface IBrowserFeatureDetectionService {
     is_touch_device(): boolean
     hasHover(): boolean
 }
+
+export interface ISanitizerService {
+    LettersAndDigits(input: string) : string;
+}

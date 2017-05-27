@@ -7,6 +7,7 @@ import { SimpleService } from 'services/planning-poker/SimpleService'
 import { NotificationService } from 'services/planning-poker/NotificationService'
 import { StateService } from 'services/planning-poker/StateService'
 import { BrowserFeatureDetectionService } from 'services/planning-poker/BrowserFeatureDetectionService'
+import { SanitizerService } from 'services/planning-poker/SanitizerService'
 
 export const Singletons = [
     {interface: DI.ILocalStorageService, implementation: LocalStorageService},
@@ -16,5 +17,6 @@ export const Singletons = [
     {interface: DI.ISimpleService, implementation: SimpleService},
     {interface: DI.INotificationService, implementation: NotificationService},
     {interface: DI.IStateService, implementation: StateService},
-    {interface: DI.IBrowserFeatureDetectionService, implementation: BrowserFeatureDetectionService }
+    {interface: DI.IBrowserFeatureDetectionService, implementation: BrowserFeatureDetectionService },
+    {interface: DI.ISanitizerService, implementation: SanitizerService}
 ]

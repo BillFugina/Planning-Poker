@@ -203,6 +203,7 @@ export class SessionService implements ISessionService {
     async endRound(sessionId: IGuid, roundId: number): Promise<void> {
         try {
             var result = await this.apiService.EndRound(sessionId, roundId)
+            this.stateService.isInActiveRound = false
         }
         catch (error) {
             toastr.error(`Error ending round: ${error}`)

@@ -2,13 +2,13 @@ import { inject } from 'aurelia-framework'
 import { Router } from 'aurelia-router'
 import * as toastr from 'toastr';
 import * as pusher from 'pusher-js'
-import { INotificationService, IStateService } from "services/planning-poker";
+import { INotificationService, IStateService, ISanitizerService } from "services/planning-poker";
 import { ISessionStorageService } from 'services/storage'
 import { IParticipant, IVote, IRound, Round, RoundState, IGuid } from "model"
 import { Observable, EventHandler, Subscription, SubscriptionToken } from 'services/util/observable'
 import { DI } from 'dependency-injection'
 
-@inject(Router, DI.IStateService, DI.ISessionStorageService)
+@inject(Router, DI.IStateService, DI.ISessionStorageService, DI.ISanitizerService)
 export class NotificationService implements INotificationService {
 
     private _pusher: pusher.Pusher
@@ -19,7 +19,8 @@ export class NotificationService implements INotificationService {
     constructor(
         private router: Router,
         private stateService: IStateService,
-        private SessionStorage: ISessionStorageService
+        private sessionStorage: ISessionStorageService,
+        private sanitizerService: ISanitizerService
     ) {
         this._pusher = new pusher('dbb03672c21dbc11baf5')
     }
@@ -37,7 +38,7 @@ export class NotificationService implements INotificationService {
 
     joinSession(sessionName: string) {
         const self = this;
-        this._channel = this._pusher.subscribe(sessionName)
+        this._channel = this._pusher.subscribe(this.sanitizerService.LettersAndDigits(sessionName))
         this._channel.bind('RegisterVote', this.registerVote)
         this._channel.bind('RegisterParticipant', this.registerParticipant)
         this._channel.bind('PrepareRound', this.prepareRound)
@@ -96,8 +97,8 @@ export class NotificationService implements INotificationService {
     endSession = (data: string) => {
         this.leaveSession()
         this.stateService.clear()
-        this.SessionStorage.remove("SessionID")
-        this.SessionStorage.remove("Participant")
+        this.sessionStorage.remove("SessionID")
+        this.sessionStorage.remove("Participant")
         this.router.navigateToRoute('home')
     }
 

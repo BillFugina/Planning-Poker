@@ -6,5 +6,6 @@ export const DI = {
     ISimpleService: 'ISimpleService',
     INotificationService : 'INotificationService',
     IStateService : 'IStateService',
-    IBrowserFeatureDetectionService: 'IBrowserFeatureDetectionService'
+    IBrowserFeatureDetectionService: 'IBrowserFeatureDetectionService',
+    ISanitizerService: 'ISanitizerService'
 }
