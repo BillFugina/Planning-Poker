@@ -9,7 +9,8 @@ export interface IApiService {
     EndRound(sessionId: IGuid, roundId : number): Promise<void>
     StartCountdown(sessionId: IGuid, roundId : number): Promise<Round>
     Vote(sessionName: string, roundId: number,  participant: IParticipant, value: number ): Promise<void>
-    EndSession(sessionId: IGuid);
+    EndSession(sessionId: IGuid)
+    RemoveParticipant(sessionId: IGuid, participantId: IGuid): Promise<void> 
 }
 
 
@@ -24,6 +25,7 @@ export interface ISessionService {
     endRound(sessionId: IGuid, roundId : number): Promise<void>
     endSession(sessionId: IGuid): Promise<void>
     vote(sessionName: IGuid, roundId: number,  participant: IParticipant, value: number ): Promise<void>
+    removeParticipant(sessionId: IGuid, participantId: IGuid): Promise<void> 
 }
 
 export interface ISimpleService {
@@ -53,6 +55,7 @@ export interface IStateService {
     cardChosen(value: number): boolean
     setSession(session: ISession)
     setParticipant(partipant: IParticipant)
+    removeParticipant(participantId: IGuid)
     addParticipant(participant: IParticipant)
     getCardDisplay(value: number)
 }

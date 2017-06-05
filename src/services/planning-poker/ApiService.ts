@@ -82,7 +82,20 @@ export class ApiService implements IApiService {
         }
     }
 
-    async PrepareRound(sessionId: IGuid): Promise<Round>{
+    async RemoveParticipant(sessionId: IGuid, participantId: IGuid): Promise<void> {
+        try {
+            var response = await this.client.fetch(`sessions/${sessionId}/participants/${participantId}`, {
+                method: 'delete'
+            })
+
+            var result = await response.json()
+        }
+        catch (error) {
+            return undefined
+        }
+    }
+
+    async PrepareRound(sessionId: IGuid): Promise<Round> {
         try {
             var response = await this.client.fetch(`sessions/${sessionId}/rounds`, {
                 method: 'get'
@@ -92,12 +105,12 @@ export class ApiService implements IApiService {
             var result = new Round(round);
             return result
         }
-        catch (error){
+        catch (error) {
             return undefined
         }
     }
 
-    async StartCountdown(sessionId: IGuid, roundId : number): Promise<Round>{
+    async StartCountdown(sessionId: IGuid, roundId: number): Promise<Round> {
         try {
             var response = await this.client.fetch(`sessions/${sessionId}/rounds/${roundId}`, {
                 method: 'get'
@@ -107,23 +120,23 @@ export class ApiService implements IApiService {
             var result = new Round(round);
             return result
         }
-        catch (error){
+        catch (error) {
             return undefined
         }
     }
-    async EndRound(sessionId: IGuid, roundId : number): Promise<void>{
+    async EndRound(sessionId: IGuid, roundId: number): Promise<void> {
         try {
             var response = await this.client.fetch(`sessions/${sessionId}/rounds/${roundId}`, {
                 method: 'delete'
             })
         }
-        catch (error){
+        catch (error) {
             return undefined
         }
     }
 
-    async Vote(sessionName: string, roundId: number,  participant: IParticipant, value: number ): Promise<void> {
-        const voteBallot : IVoteBallot = {
+    async Vote(sessionName: string, roundId: number, participant: IParticipant, value: number): Promise<void> {
+        const voteBallot: IVoteBallot = {
             Value: value,
             ParticipantName: participant.Name
         }
@@ -136,7 +149,7 @@ export class ApiService implements IApiService {
                 body: body
             })
         }
-        catch (error){
+        catch (error) {
             return undefined
         }
     }
@@ -147,7 +160,7 @@ export class ApiService implements IApiService {
                 method: 'delete'
             })
         }
-        catch (error){
+        catch (error) {
             return undefined
         }
     }

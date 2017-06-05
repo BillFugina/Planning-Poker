@@ -1,5 +1,5 @@
 import { NavigationInstruction, RouteConfig } from 'aurelia-router'
-import { ISession, IParticipant, RoundState } from 'model'
+import { ISession, IParticipant, RoundState, IGuid } from 'model'
 import { ISessionService, IApiService, IStateService, ISanitizerService } from 'services/planning-poker'
 import { inject } from 'aurelia-framework'
 import { DI } from 'dependency-injection'
@@ -86,6 +86,10 @@ export class Master {
     }
 
     endSession(){
-        this.session.endSession(this.state.session.Id);
+        this.session.endSession(this.state.session.Id)
+    }
+
+    removeParticipant(participantId: IGuid){
+        this.session.removeParticipant(this.state.session.Id, participantId)
     }
 }

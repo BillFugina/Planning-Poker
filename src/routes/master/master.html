@@ -40,6 +40,7 @@
                     <li repeat.for="participant of state.session.Participants">
                         <div class="icon"><i class="fa fa-lg ${participant.Role == 2 ? 'fa-gavel' : 'fa-user-o'}" aria-hidden="true"></i></div>
                         <div class="name">${participant.Name}</div>
+                        <div class="delete"><i hide.bind="$first" class="fa fa-times  text-danger" click.delegate="removeParticipant(participant.Id)"></i></div>
                         <div class="vote"><i show.bind="participant.Voted" class="fa fa-check"></i></div>
                     </li>
                 </ul>

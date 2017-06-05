@@ -1,5 +1,6 @@
-import { IParticipant, Round, ISession, ICard, IVote, Session } from 'model'
-import { IStateService } from "services/planning-poker";
+import { IParticipant, Round, ISession, ICard, IVote, Session, IGuid } from 'model'
+import { IStateService } from "services/planning-poker"
+import * as autil from "services/util/array-util"
 
 export class StateService implements IStateService {
     session: ISession
@@ -11,7 +12,7 @@ export class StateService implements IStateService {
     constructor() {
         this.session = new Session();
     }
-    clear(){
+    clear() {
         this.session = null
         this.participant = null
         this.chosen = null
@@ -44,7 +45,7 @@ export class StateService implements IStateService {
         return result
     }
 
-    getCardDisplay(value: number): string{
+    getCardDisplay(value: number): string {
         const cardValue = this.calcRoundAverage(value);
         const card = this.session.Cards.find(c => c.Value == cardValue);
         return card ? card.Display : cardValue.toString()
@@ -65,6 +66,11 @@ export class StateService implements IStateService {
             this.session.Participants.push(participant);
         }
     }
+
+    removeParticipant(participantId: IGuid) {
+        autil.removeWhere(this.session.Participants, p => p.Id == participantId)
+    }
+
     resetCards() {
         this.session.Cards.map(c => {
             c.Chosen = this.cardChosen(c.Value)

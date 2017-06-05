@@ -14,6 +14,12 @@ body {
   }
 }
 
+div.delete {
+  i.fa-times {
+    cursor: pointer;
+  }
+}
+
 .home {
   display: grid;
   grid-template-columns: auto-fit auto-fit;
@@ -340,7 +346,7 @@ button {
 
   li {
     display: grid;
-    grid-template-columns: 40px auto 40px;
+    grid-template-columns: 40px auto 40px 40px;
     border-bottom: 1px solid #ccc;
   }
 }

@@ -41,6 +41,7 @@ export class NotificationService implements INotificationService {
         this._channel = this._pusher.subscribe(this.sanitizerService.LettersAndDigits(sessionName))
         this._channel.bind('RegisterVote', this.registerVote)
         this._channel.bind('RegisterParticipant', this.registerParticipant)
+        this._channel.bind('RemoveParticipant', this.removeParticipant)
         this._channel.bind('PrepareRound', this.prepareRound)
         this._channel.bind('StartCountdown', this.startCountdown)
         this._channel.bind('EndRound', this.endRound)
@@ -64,6 +65,13 @@ export class NotificationService implements INotificationService {
 
     registerParticipant = (data: IParticipant) => {
         this.stateService.addParticipant(data);
+    }
+
+    removeParticipant = (participantId : IGuid) => {
+        this.stateService.removeParticipant(participantId)
+        if (this.stateService.participant.Id == participantId){
+            this.endSession(participantId);
+        }
     }
 
     prepareRound = (data: IRound) => {

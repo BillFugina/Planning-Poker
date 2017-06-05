@@ -20,6 +20,7 @@
     "bluebird": "^3.4.1",
     "bootstrap": "^3.3.7",
     "jquery": "^2.2.4",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "pusher-js": "^4.1.0",
     "requirejs": "^2.3.2",
@@ -30,6 +31,7 @@
   "peerDependencies": {},
   "devDependencies": {
     "@types/jasmine": "^2.2.0",
+    "@types/lodash": "^4.14.65",
     "@types/node": "^6.0.45",
     "@types/pusher-js": "^3.0.29",
     "@types/toastr": "^2.1.32",

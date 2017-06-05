@@ -218,7 +218,7 @@ export class SessionService implements ISessionService {
         }
     }
 
-    async endSession(sessionId: IGuid): Promise<void>{
+    async endSession(sessionId: IGuid): Promise<void> {
         try {
             var result = await this.apiService.EndSession(sessionId)
         }
@@ -227,4 +227,13 @@ export class SessionService implements ISessionService {
         }
     }
 
+    async removeParticipant(sessionId: IGuid, participantId: string): Promise<void> {
+        this.stateService.removeParticipant(participantId)
+        try {
+            var result = await this.apiService.RemoveParticipant(sessionId, participantId)
+        }
+        catch (error) {
+            toastr.error(`Error removing participant: ${error}`)
+        }
+    }
 }
