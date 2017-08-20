@@ -248,8 +248,12 @@ button {
     grid-column-gap: 10px;
 
     .controls {
-      display: grid;
-      grid-template-rows: 1fr 1fr 1fr;
+      div{
+        input,
+        button{
+          margin: 3px 5px
+        }
+      }
     }
 
     .title {

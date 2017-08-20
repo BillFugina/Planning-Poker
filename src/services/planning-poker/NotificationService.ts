@@ -4,7 +4,7 @@ import * as toastr from 'toastr';
 import * as pusher from 'pusher-js'
 import { INotificationService, IStateService, ISanitizerService } from "services/planning-poker";
 import { ISessionStorageService } from 'services/storage'
-import { IParticipant, IVote, IRound, Round, RoundState, IGuid } from "model"
+import { IParticipant, IVote, IRound, Round, RoundState, IGuid, ParticipantRole } from 'model'
 import { Observable, EventHandler, Subscription, SubscriptionToken } from 'services/util/observable'
 import { DI } from 'dependency-injection'
 
@@ -56,7 +56,7 @@ export class NotificationService implements INotificationService {
 
     registerVote = (data: IVote) => {
         let card = this.stateService.session.Cards.find(c => c.Value == data.Value)
-        if (card){
+        if (card) {
             data.Display = card.Display
         }
         this.stateService.session.CurrentRound.addVote(data)
@@ -67,9 +67,9 @@ export class NotificationService implements INotificationService {
         this.stateService.addParticipant(data);
     }
 
-    removeParticipant = (participantId : IGuid) => {
+    removeParticipant = (participantId: IGuid) => {
         this.stateService.removeParticipant(participantId)
-        if (this.stateService.participant.Id == participantId){
+        if (this.stateService.participant.Id == participantId) {
             this.endSession(participantId);
         }
     }
@@ -114,6 +114,12 @@ export class NotificationService implements INotificationService {
         const participant = this.stateService.session.Participants.find(p => p.Id == participantId);
         if (participant) {
             participant.Voted = value;
+        }
+        if (this.stateService.session.AutoReveal) {
+            const voters = this.stateService.session.Participants.filter(x => x.Role === ParticipantRole.Voter);
+            if (voters.every(x => x.Role === ParticipantRole.Voter && x.Voted)) {
+                this.endRound(this.stateService.session.CurrentRound.Id)
+            }
         }
     }
 

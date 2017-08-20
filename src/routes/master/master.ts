@@ -17,6 +17,14 @@ export class Master {
     ) {
     }
 
+    get autoReveal() {
+        return this.state.session.AutoReveal;
+    }
+
+    set autoReveal(newValue: boolean) {
+        this.state.session.AutoReveal = newValue;
+    }
+    
     get qrCode(){
         return `${Settings.serverUrl}${Settings.apiPath}/sessions/${this.state.session.Name}/qrcode`
     }

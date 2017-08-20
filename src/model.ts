@@ -37,6 +37,7 @@ export class Session implements ISession {
     Id: IGuid
     Name: string
     Master: IParticipant
+    AutoReveal: boolean
     Participants: IParticipant[]
     Cards: ICard[]
     Rounds: Round[]
@@ -91,6 +92,7 @@ export interface ISession {
     Id: IGuid
     Name: string
     Master: IParticipant
+    AutoReveal: boolean
     Participants: IParticipant[]
     Cards: ICard[]
     CurrentRound: Round

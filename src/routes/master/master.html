@@ -18,13 +18,21 @@
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         New Round
                     </button>
+                </div>
+                <div>
                     <button type="button" class="btn btn-primary" click.delegate="startCountdown()" disabled.bind="!enableStart">
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                         Start Timer
                     </button>
+                </div>
+                <div>
                     <button type="button" class="btn btn-primary" click.delegate="endRound()" disabled.bind="!enableEnd">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                         Reveal
+                    </button>
+                    <input type="checkbox" checked.bind="autoReveal">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                        Auto Reveal
                     </button>
                 </div>
                 <div>
